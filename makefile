@@ -5,6 +5,7 @@ ASM_FLAGS		= -O0 -f elf64 -g
 
 ASM_SRC		= \
 					ft_strcmp \
+					ft_strcpy \
 					ft_strlen
 
 ASM_SRC_BONUS	= 
