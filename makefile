@@ -50,6 +50,9 @@ bonus : $(OBJ_SRC) $(OBJ_BONUS)
 test: all
 	@gcc -g -O0 $(TEST_FILES) -L. -lasm && ./a.out && rm a.out
 
+test_v: all
+	@gcc -g -O0 $(TEST_FILES) -L. -lasm && valgrind ./a.out && rm a.out
+
 debug: all
 	@gcc -g -O0 $(TEST_FILES) -L. -lasm && gdb a.out
 	@rm a.out

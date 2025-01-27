@@ -6,7 +6,7 @@
 
 ssize_t	ft_read(int fd, void *buf, size_t count);
 
-void test_read()
+void test_read(int test_std_in)
 {
 	int 	fd;
 	char	file_name[] = "test_to_dell.txt";
@@ -21,16 +21,19 @@ void test_read()
 
 	printf("=== Tests of ft_read ===\n");
 
-	printf("Test on stdin, write anything (less than 1024 char) and check if the printed text is equal to it:\n");
-	errno = 0;
-	my_res = ft_read(0, read_buff, 1024);
-	my_errno = errno;
-	printf("%s", read_buff);
-	printf("res = %d and errno = %d\n", my_res, my_errno);
-	if (my_errno)
+	if (test_std_in)
 	{
-		++error_cpt;
-		printf("Error: %s\n", strerror(my_errno));
+		printf("Test on stdin, write anything (less than 1024 char) and check if the printed text is equal to it:\n");
+		errno = 0;
+		my_res = ft_read(0, read_buff, 1024);
+		my_errno = errno;
+		printf("%s", read_buff);
+		printf("res = %d and errno = %d\n", my_res, my_errno);
+		if (my_errno)
+		{
+			++error_cpt;
+			printf("Error: %s\n", strerror(my_errno));
+		}
 	}
 
 	errno = 0;
