@@ -11,12 +11,13 @@ size_t	ft_strlen(const char *s);
 int		ft_strcmp(const char *dest, const char *src);
 char	*ft_strcpy(char *dest, const char *src);
 ssize_t	ft_write(int fd, const void *buf, size_t count);
-
+ssize_t	ft_read(int fd, void *buf, size_t count);
 
 static void _test_strlen();
 static void _test_strcmp();
 static void _test_strcpy();
 static void _test_write();
+static void _test_read();
 
 int main()
 {
@@ -24,6 +25,7 @@ int main()
 	_test_strcmp();
 	_test_strcpy();
 	_test_write();
+	_test_read();
 
 	return 0;
 }
@@ -207,4 +209,76 @@ int cmp_file_content(const char *file_name, const char *str_ref)
 		return 1;
 	}
 	return 0;
+}
+
+
+
+
+static void _test_read()
+{
+	int 	fd;
+	char	file_name[] = "test_to_dell.txt";
+	char	read_buff[1024];
+	char	str_ref[] = "This is a test\n";
+	int		res_ref;
+	int 	errno_ref;
+	int 	my_res;
+	int		my_errno;
+
+	printf("=== Tests of ft_read ===\n");
+
+	printf("Test on stdin, write anything (less than 1024 char) and check if the printed text is equal to it:\n");
+	errno = 0;
+	my_res = ft_read(0, read_buff, 1024);
+	my_errno = errno;
+	printf("%s", read_buff);
+	printf("res = %d and errno = %d\n", my_res, my_errno);
+	if (my_errno)
+		printf("Error: %s\n", strerror(my_errno));
+
+	errno = 0;
+	fd = open(file_name,  O_CREAT | O_RDWR, 0666);
+	if (fd == -1)
+		printf("Test error, can't create test_to_dell.txt\n");
+	else
+	{
+		write(fd, str_ref, strlen(str_ref));
+		close(fd);
+		
+		printf("\nTest on valid file:\n");
+		res_ref = strlen(str_ref);
+		errno_ref = 0;
+		fd = open(file_name, O_RDONLY);
+		my_res = ft_read(fd, read_buff, 1024);
+		my_errno = errno;
+		printf(" res:%d, errno = %d\n", my_res, my_errno);
+		close(fd);
+		if (my_res != res_ref || my_errno != errno_ref)
+			printf("ko: expected res = %d, errno = %d\n", res_ref, errno_ref);
+		else if (strcmp(read_buff, str_ref))
+			printf("ko: read \"%s\" instead of \"%s\"\n", read_buff, str_ref);
+		else
+			printf("ok\n");
+
+		printf("\nTest on WRITE file:\n");
+		fd = open(file_name, O_WRONLY | O_APPEND);
+		errno = 0;
+		res_ref = read(fd, read_buff, 1024); //wrong open, no rights
+		errno_ref = errno;
+		errno = 0;
+		my_res = ft_read(fd, read_buff, 1024); //wrong open, no rights
+		my_errno = errno;
+		printf(" res:%d, errno = %d\n", my_res, my_errno);
+		close(fd);
+		if (my_res != res_ref || my_errno != errno_ref)
+			printf("ko: expected res = %d, errno = %d\n", res_ref, errno_ref);
+		else if (strcmp(read_buff, str_ref))
+			printf("ko: read \"%s\" instead of \"%s\"\n", read_buff, str_ref);
+		else
+			printf("ok\n");
+		
+		remove(file_name);
+	}
+
+	printf("--- End ---\n\n");
 }

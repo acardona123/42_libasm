@@ -7,7 +7,8 @@ ASM_SRC		= \
 					ft_strcmp \
 					ft_strcpy \
 					ft_strlen \
-					ft_write
+					ft_write \
+					ft_read
 
 ASM_SRC_BONUS	= 
 
