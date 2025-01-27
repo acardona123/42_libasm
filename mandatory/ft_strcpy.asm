@@ -11,7 +11,7 @@ ft_strcpy:
 
 .cpy_char:
 	movzx	r10, byte [rsi + rax]; s1[i] saved in reg for cmp   /!\ we are manipulating bytes and not int (4bytes) which is the default size. So when manipulating the data we need to specify that => use movzx adds the required zeroes to fill the 64bits register
-	mov		[rdi + rax], byte r10;  cmp s1[i] and s2[i]
+	mov		[rdi + rax], r10;  cmp s1[i] and s2[i]
 	; cmp		r10b, 0; else test if end of string reached
 	; je		.return; if so then .return
 	test	r10b, r10b;more optimized version the cmp 0 because we only want to know if they are different, not >= or <=

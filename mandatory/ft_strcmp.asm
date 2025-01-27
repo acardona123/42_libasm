@@ -20,7 +20,7 @@ ft_strcmp:
 
 .return:
 	movzx rax, byte [rdi + rax]; return = s1[i]  /!\ still need to specify that we manipulate one byte
-	sub rax, byte r10; return -= s2[i]
+	sub rax, r10; return -= s2[i]
 	;epilogue
 	pop rbp
 	ret
