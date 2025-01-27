@@ -6,7 +6,8 @@ ASM_FLAGS		= -O0 -f elf64 -g
 ASM_SRC		= \
 					ft_strcmp \
 					ft_strcpy \
-					ft_strlen
+					ft_strlen \
+					ft_write
 
 ASM_SRC_BONUS	= 
 
@@ -33,10 +34,10 @@ bonus : $(OBJ_SRC) $(OBJ_BONUS)
 	ar rcs $(NAME) ${OBJ_SRC} $(OBJ_BONUS)
 
 test: all
-	@gcc -g mandatory/main.c $(OBJ_SRC) && ./a.out && rm a.out
+	@gcc -g -O0 -lc tests/main.c $(OBJ_SRC) && ./a.out && rm a.out
 
 debug: all
-	@gcc -g mandatory/main.c $(OBJ_SRC) && gdb a.out
+	@gcc -g -O0 -lc tests/main.c $(OBJ_SRC) && gdb a.out
 	@rm a.out
 
 clean:
