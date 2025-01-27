@@ -17,6 +17,8 @@ void test_read()
 	int 	my_res;
 	int		my_errno;
 
+	int	error_cpt = 0;
+
 	printf("=== Tests of ft_read ===\n");
 
 	printf("Test on stdin, write anything (less than 1024 char) and check if the printed text is equal to it:\n");
@@ -26,7 +28,10 @@ void test_read()
 	printf("%s", read_buff);
 	printf("res = %d and errno = %d\n", my_res, my_errno);
 	if (my_errno)
+	{
+		++error_cpt;
 		printf("Error: %s\n", strerror(my_errno));
+	}
 
 	errno = 0;
 	fd = open(file_name,  O_CREAT | O_RDWR, 0666);
@@ -46,9 +51,15 @@ void test_read()
 		printf(" res:%d, errno = %d\n", my_res, my_errno);
 		close(fd);
 		if (my_res != res_ref || my_errno != errno_ref)
+		{
 			printf("ko: expected res = %d, errno = %d\n", res_ref, errno_ref);
+			++error_cpt;
+		}
 		else if (strcmp(read_buff, str_ref))
+		{
+			++error_cpt;
 			printf("ko: read \"%s\" instead of \"%s\"\n", read_buff, str_ref);
+		}
 		else
 			printf("ok\n");
 
@@ -63,14 +74,21 @@ void test_read()
 		printf(" res:%d, errno = %d\n", my_res, my_errno);
 		close(fd);
 		if (my_res != res_ref || my_errno != errno_ref)
+		{
+			++error_cpt;
 			printf("ko: expected res = %d, errno = %d\n", res_ref, errno_ref);
+		}
 		else if (strcmp(read_buff, str_ref))
+		{
+			++error_cpt;
 			printf("ko: read \"%s\" instead of \"%s\"\n", read_buff, str_ref);
+		}
 		else
 			printf("ok\n");
-		
+
 		remove(file_name);
 	}
 
+	printf("\nResults: %d error(s)\n", error_cpt);
 	printf("--- End ---\n\n");
 }

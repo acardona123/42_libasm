@@ -18,7 +18,7 @@ void test_strlen()
 	error_cpt += cmp_strlen_ftstrlen("Loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong");
 	error_cpt += cmp_strlen_ftstrlen("bgjeogijegivj;kvmdiorgergeggfgfdgt5afavcvx");
 
-	printf("\nResults: %d error(s)\n\n", error_cpt);
+	printf("\nResults: %d error(s)\n", error_cpt);
 
 	printf("--- End ---\n\n");
 }

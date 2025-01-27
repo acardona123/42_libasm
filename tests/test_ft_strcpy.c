@@ -7,7 +7,8 @@ size_t	ft_strlen(const char *s);
 
 char	*ft_strcpy(char *dest, const char *src);
 
-static int cmp_strcpy_ftstrcpy(const char *src);
+static int	cmp_strcpy_ftstrcpy(const char *src);
+static int test_strcpy_overflow();
 
 void test_strcpy()
 {
@@ -17,8 +18,9 @@ void test_strcpy()
 	error_cpt += cmp_strcpy_ftstrcpy("");
 	error_cpt += cmp_strcpy_ftstrcpy("000");
 	error_cpt += cmp_strcpy_ftstrcpy("000\ttotoooooooooooooooooooo");
+	error_cpt += test_strcpy_overflow();
 
-	printf("\nResults: %d error(s)\n\n", error_cpt);
+	printf("\nResults: %d error(s)\n", error_cpt);
 
 	printf("--- End ---\n\n");
 }
@@ -43,3 +45,25 @@ static int cmp_strcpy_ftstrcpy(const char *src)
 	return !rtn_ok || !cpy_ok;
 }
 
+static int test_strcpy_overflow()
+{
+	printf("Test copy overflow after dst:");
+
+	char src[] = "totoooooooooooo";
+	char dst[] = "0123456789";
+	char dst_ref[] = "0123456789";
+
+
+	src[4] = 0;
+	strcpy(dst_ref, src);
+	ft_strcpy(dst, src);
+	if (strcmp(dst, dst_ref) != 0 || strcmp(dst + 5, dst_ref + 5))
+	{
+		printf("\n expected:\n  dest = {%s}\n  dest_next = {%s}\n", dst_ref, dst_ref + 5);
+		printf(" obtained\n  dest = {%s}\n  dest_next = {%s}\n", dst, dst + 5);
+		printf(" Error, probably copy more than 1 byte at a time\n");
+		return 1;
+	}
+	printf(" ok\n");
+	return 0;
+}

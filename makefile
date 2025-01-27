@@ -1,14 +1,15 @@
 NAME			= libasm.a
 
 CC				= nasm
-ASM_FLAGS		= -O0 -f elf64 -g
+ASM_FLAGS		= -g -f elf64 -O0
 
 ASM_SRC			= \
 					ft_strcmp \
 					ft_strcpy \
 					ft_strlen \
 					ft_write \
-					ft_read
+					ft_read \
+					ft_strdup
 
 ASM_SRC_BONUS	= 
 
@@ -18,7 +19,8 @@ TEST_SRC		= \
 					test_ft_write \
 					test_ft_strcpy \
 					test_ft_strcmp \
-					test_ft_strlen
+					test_ft_strlen \
+					test_ft_strdup
 
 SRC_DIR			= mandatory/
 ASM_FILES		= $(addprefix $(SRC_DIR), $(addsuffix .asm, $(ASM_SRC)))
@@ -46,10 +48,10 @@ bonus : $(OBJ_SRC) $(OBJ_BONUS)
 	ar rcs $(NAME) ${OBJ_SRC} $(OBJ_BONUS)
 
 test: all
-	@gcc -g -O0 -lc $(TEST_FILES) $(OBJ_SRC) && ./a.out && rm a.out
+	@gcc -g -O0 $(TEST_FILES) -L. -lasm && ./a.out && rm a.out
 
 debug: all
-	@gcc -g -O0 -lc $(TEST_FILES) $(OBJ_SRC) && gdb a.out
+	@gcc -g -O0 $(TEST_FILES) -L. -lasm && gdb a.out
 	@rm a.out
 
 clean:
