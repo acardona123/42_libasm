@@ -11,7 +11,8 @@ ASM_SRC			= \
 					ft_read \
 					ft_strdup
 
-ASM_SRC_BONUS	= 
+ASM_SRC_BONUS	= \
+					ft_list_push_front
 
 TEST_SRC		= \
 					test_ft_read \
