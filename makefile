@@ -22,7 +22,7 @@ TEST_SRC		= \
 					test_ft_strlen \
 					test_ft_strdup
 
-SRC_DIR			= mandatory/
+SRC_DIR			= srcs/mandatory/
 ASM_FILES		= $(addprefix $(SRC_DIR), $(addsuffix .s, $(ASM_SRC)))
 ASM_FILES_BONUS	= $(addprefix $(SRC_DIR), $(addsuffix .s, $(ASM_SRC_BONUS)))
 

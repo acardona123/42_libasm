@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 
-ssize_t	ft_write(int fd, const void *buf, size_t count);
+#include "../includes/libasm.h"
 
 static int cmp_file_content(const char *file_name, const char *str_ref);
 

@@ -3,9 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-size_t	ft_strlen(const char *s);
-
-char	*ft_strcpy(char *dest, const char *src);
+#include "../includes/libasm.h"
 
 static int	cmp_strcpy_ftstrcpy(const char *src);
 static int test_strcpy_overflow();

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int		ft_strcmp(const char *dest, const char *src);
+#include "../includes/libasm.h"
 
 static int cmp_strcmp_ftstrcmp(const char *str1, const char *str2);
 
