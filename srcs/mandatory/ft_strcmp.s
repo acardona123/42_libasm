@@ -10,7 +10,10 @@ ft_strcmp:
 	xor rax, rax; used as an index i
 
 .cmp_char:
-	movzx	r10, byte [rsi + rax]; s1[i] saved in reg for cmp   /!\ we are manipulating bytes and not int (4bytes) which is the default size. So when manipulating the data we need to specify that => use movzx adds the required zeroes to fill the 64bits register
+	movzx	r10, byte [rsi + rax]; s1[i] saved in reg for cmp 
+									; /!\ RBX, RBP, and R12 through R15 are callee-saved so thy must be save dif used
+									; /!\ we are manipulating bytes and not int (4bytes) which is the default size.
+										;So when manipulating the data we need to specify that => use movzx adds the required zeroes to fill the 64bits register
 	cmp		r10b, byte [rdi + rax];  cmp s1[i] and s2[i]
 	jne		.return; if != goto .return
 	cmp		r10b, 0; else test if end of string reached
