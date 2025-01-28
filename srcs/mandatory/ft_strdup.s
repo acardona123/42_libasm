@@ -1,5 +1,5 @@
 section .bss
-	dest RESD 1 ; static (because not global) var stored in the program data segment (lifetime of the entire pgm). Not optimized here as registers could have been used (faster and less resources) (only pedagogic use)
+	str_src RESD 1 ; static (because not global) var stored in the program data segment (lifetime of the entire pgm). Not optimized here as registers could have been used (faster and less resources) (only pedagogic use)
 	
 section .text
 
@@ -11,7 +11,7 @@ section .text
 ft_strdup:
 	push rbp
 	mov rbp, rsp
-	mov qword [rel dest], rdi
+	mov qword [rel str_src], rdi;save the src that could be update by strlen or malloc
 .getLen:
 	call qword [rel ft_strlen wrt ..got]
 .allocate_mem:
@@ -25,10 +25,9 @@ ft_strdup:
 	cmp rax, byte 0
 	je .return
 	mov rdi, rax
-	mov rsi, qword [rel dest]
+	mov rsi, qword [rel str_src]
 .cpy:
 	call qword [rel ft_strcpy wrt ..got]
 .return:
 	pop rbp
-	add rsp , 4; de-allocate mem of local var dest
 	ret
