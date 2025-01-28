@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../includes/libasm.h"
+#include "../../includes/libasm.h"
 
 static int cmp_strlen_ftstrlen(const char *str);
 

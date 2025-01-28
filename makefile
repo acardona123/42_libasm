@@ -14,24 +14,31 @@ ASM_SRC			= \
 ASM_SRC_BONUS	= 
 
 TEST_SRC		= \
-					main \
 					test_ft_read \
 					test_ft_write \
 					test_ft_strcpy \
 					test_ft_strcmp \
 					test_ft_strlen \
 					test_ft_strdup
+TEST_SRC_BONUS		= \
+					test_ft_list_push_front
 
-SRC_DIR			= srcs/mandatory/
-ASM_FILES		= $(addprefix $(SRC_DIR), $(addsuffix .s, $(ASM_SRC)))
-ASM_FILES_BONUS	= $(addprefix $(SRC_DIR), $(addsuffix .s, $(ASM_SRC_BONUS)))
+SRC_DIR					=	srcs/
+SRC_MANDATORY_SUBDIR	=	mandatory/
+ASM_FILES				=	$(addprefix $(SRC_DIR)$(SRC_MANDATORY_SUBDIR), $(addsuffix .s, $(ASM_SRC)))
+SRC_BONUS_SUBDIR		=	_bonus/
+ASM_FILES_BONUS			=	$(addprefix $(SRC_DIR)$(SRC_BONUS_SUBDIR), $(addsuffix .s, $(ASM_SRC_BONUS)))
 
-OBJ_DIR			= obj/
-OBJ_SRC			= $(patsubst $(SRC_DIR)%.s, $(OBJ_DIR)%.o, $(ASM_FILES))
-OBJ_BONUS		= $(patsubst $(SRC_DIR)%.s, $(OBJ_DIR_BONUS)%.o, $(ASM_FILES_BONUS))
+OBJ_DIR					=	obj/
+OBJ_SRC					=	$(patsubst $(SRC_DIR)%.s, $(OBJ_DIR)%.o, $(ASM_FILES))
+OBJ_BONUS				=	$(patsubst $(SRC_DIR)%.s, $(OBJ_DIR)%.o, $(ASM_FILES_BONUS))
 
-TEST_DIR		= tests/
-TEST_FILES		= $(addprefix $(TEST_DIR), $(addsuffix .c, $(TEST_SRC)))
+TEST_DIR				=	tests/
+TEST_MANDATORY_SUBDIR	=	mandatory/
+TEST_FILES_MANDATORY	=	$(addprefix $(TEST_DIR)$(TEST_MANDATORY_SUBDIR), $(addsuffix .c, main $(TEST_SRC)))
+TEST_BONUS_SUBDIR		=	_bonus/
+TEST_FILES_BONUS		=	$(addprefix $(TEST_DIR)$(TEST_MANDATORY_SUBDIR), $(addsuffix .c, $(TEST_SRC))) \
+							$(addprefix $(TEST_DIR)$(TEST_BONUS_SUBDIR), $(addsuffix .c, main_bonus $(TEST_SRC_BONUS)))
 
 all: ${NAME}
 
@@ -44,17 +51,29 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.s $(DEPS)
 ${NAME}: $(OBJ_SRC)
 	ar rcs $(NAME) ${OBJ_SRC}
 
+
+test: all
+	@gcc -g -O0 $(TEST_FILES_MANDATORY) -L. -lasm && ./a.out && rm a.out
+
+test_v: all
+	@gcc -g -O0 $(TEST_FILES_MANDATORY) -L. -lasm && valgrind ./a.out && rm a.out
+
+debug: all
+	@gcc -g -O0 $(TEST_FILES_MANDATORY) -L. -lasm && gdb a.out
+	@rm a.out
+
+
 bonus : $(OBJ_SRC) $(OBJ_BONUS) 
 	ar rcs $(NAME) ${OBJ_SRC} $(OBJ_BONUS)
 
-test: all
-	@gcc -g -O0 $(TEST_FILES) -L. -lasm && ./a.out && rm a.out
+bonus_test: bonus
+	@gcc -g -O0 $(TEST_FILES_BONUS) -L. -lasm && ./a.out && rm a.out
 
-test_v: all
-	@gcc -g -O0 $(TEST_FILES) -L. -lasm && valgrind ./a.out && rm a.out
+bonus_test_v: bonus
+	@gcc -g -O0 $(TEST_FILES_BONUS) -L. -lasm && valgrind ./a.out && rm a.out
 
-debug: all
-	@gcc -g -O0 $(TEST_FILES) -L. -lasm && gdb a.out
+bonus_debug: bonus
+	@gcc -g -O0 $(TEST_FILES_BONUS) -L. -lasm && gdb a.out
 	@rm a.out
 
 clean:

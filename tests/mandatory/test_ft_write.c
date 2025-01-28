@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "../includes/libasm.h"
+#include "../../includes/libasm.h"
 
 static int cmp_file_content(const char *file_name, const char *str_ref);
 

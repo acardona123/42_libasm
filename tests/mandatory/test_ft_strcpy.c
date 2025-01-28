@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../includes/libasm.h"
+#include "../../includes/libasm.h"
 
 static int	cmp_strcpy_ftstrcpy(const char *src);
 static int test_strcpy_overflow();
