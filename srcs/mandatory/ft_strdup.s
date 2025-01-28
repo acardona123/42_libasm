@@ -18,10 +18,10 @@ ft_strdup:
 	inc rax
 	mov rdi, rax
 	call qword [rel malloc wrt ..got]
-	mov rdi, rax
-	mov rsi, qword [rel dest]
 	cmp rax, byte 0
 	je .return
+	mov rdi, rax
+	mov rsi, qword [rel dest]
 .cpy:
 	call qword [rel ft_strcpy wrt ..got]
 .return:
