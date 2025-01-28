@@ -23,19 +23,19 @@ TEST_SRC		= \
 					test_ft_strdup
 
 SRC_DIR			= mandatory/
-ASM_FILES		= $(addprefix $(SRC_DIR), $(addsuffix .asm, $(ASM_SRC)))
-ASM_FILES_BONUS	= $(addprefix $(SRC_DIR), $(addsuffix .asm, $(ASM_SRC_BONUS)))
+ASM_FILES		= $(addprefix $(SRC_DIR), $(addsuffix .s, $(ASM_SRC)))
+ASM_FILES_BONUS	= $(addprefix $(SRC_DIR), $(addsuffix .s, $(ASM_SRC_BONUS)))
 
 OBJ_DIR			= obj/
-OBJ_SRC			= $(patsubst $(SRC_DIR)%.asm, $(OBJ_DIR)%.o, $(ASM_FILES))
-OBJ_BONUS		= $(patsubst $(SRC_DIR)%.asm, $(OBJ_DIR_BONUS)%.o, $(ASM_FILES_BONUS))
+OBJ_SRC			= $(patsubst $(SRC_DIR)%.s, $(OBJ_DIR)%.o, $(ASM_FILES))
+OBJ_BONUS		= $(patsubst $(SRC_DIR)%.s, $(OBJ_DIR_BONUS)%.o, $(ASM_FILES_BONUS))
 
 TEST_DIR		= tests/
 TEST_FILES		= $(addprefix $(TEST_DIR), $(addsuffix .c, $(TEST_SRC)))
 
 all: ${NAME}
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.asm $(DEPS)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.s $(DEPS)
 	@if [ ! -d "$(OBJ_DIR)" ]; then mkdir $(OBJ_DIR); fi
 	@if [ ! -d "$(dir $@)" ]; then mkdir $(dir $@); fi
 	$(CC) $(ASM_FLAGS) $< -o $@
@@ -58,7 +58,8 @@ debug: all
 	@rm a.out
 
 clean:
-	@rm -f $(OBJ_SRC) $(OBJ_BONUS)
+	@rm -rf $(OBJ_DIR)
+
 
 fclean: clean
 	@rm -rf $(NAME)
