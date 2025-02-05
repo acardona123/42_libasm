@@ -1,8 +1,5 @@
-#include "../../includes/libasm_bonus.h"
-#include <stdio.h>
+#include "test_bonus.h"
 
-static void _print_lst_elem(t_list *lst);
-static void _print_lst(t_list *lst_head);
 static int _test_preexisting_list( int print);
 static int _test_empty_list( int print);
 
@@ -56,13 +53,13 @@ static int _test_preexisting_list( int print_details)
 	if (print_details)
 	{
 		printf("Head addr: %p\n", &head);
-		_print_lst(head);
+		test_print_lst(head);
 	}
 	ft_list_push_front(&head, (void*)new_data);
 	if (print_details)
 	{
 		printf("\nShould now start with a new node node which data is %p\n", new_data);
-		_print_lst(head);	
+		test_print_lst(head);	
 	}
 	return (!head || head->data != new_data || head->next != &old_first || head->next->next != old_first.next);
 }
@@ -71,7 +68,7 @@ static int _test_preexisting_list( int print_details)
 static int _test_empty_list( int print_details)
 {
 	t_list	**head;
-	t_list *first_null;
+	t_list *first_null = NULL;
 	char*	new_data = "Hi there!";
 
 	head = &first_null;
@@ -84,28 +81,7 @@ static int _test_empty_list( int print_details)
 	if (print_details)
 	{
 		printf("\nShould now start with a new node node which data is %p\n", new_data);
-		_print_lst(*head);	
+		test_print_lst(*head);	
 	}
 	return (!(*head) || (*head)->data != new_data || (*head)->next != NULL);
-}
-
-
-
-static void _print_lst_elem(t_list *lst)
-{
-	printf("%p:\n  -data: %p\n  -next: %p\n", lst, lst->data, lst->next);
-} 
-
-static void _print_lst(t_list *lst_head)
-{
-	t_list *elem;
-
-	printf("List:\nStart at %p\n", lst_head);
-	elem = lst_head;
-	while (elem)
-	{
-		_print_lst_elem(elem);
-		elem = elem->next;
-	}
-	printf("--End list--\n");
 }

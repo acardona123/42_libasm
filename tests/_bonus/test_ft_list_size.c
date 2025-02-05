@@ -1,5 +1,4 @@
-#include "../../includes/libasm_bonus.h"
-#include <stdio.h>
+#include "test_bonus.h"
 
 void test_list_size()
 {

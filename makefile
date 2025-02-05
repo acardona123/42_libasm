@@ -13,7 +13,8 @@ ASM_SRC			= \
 
 ASM_SRC_BONUS	= \
 					ft_list_push_front \
-					ft_list_size
+					ft_list_size \
+					ft_list_remove_if
 
 TEST_SRC		= \
 					test_ft_read \
@@ -22,9 +23,12 @@ TEST_SRC		= \
 					test_ft_strcmp \
 					test_ft_strlen \
 					test_ft_strdup
+
 TEST_SRC_BONUS		= \
+					test_ft_list_display \
 					test_ft_list_push_front \
-					test_ft_list_size
+					test_ft_list_size \
+					test_ft_list_remove_if
 
 SRC_DIR					=	srcs/
 SRC_MANDATORY_SUBDIR	=	mandatory/

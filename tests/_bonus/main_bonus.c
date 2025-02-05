@@ -1,11 +1,9 @@
-#include "../../includes/libasm_bonus.h"
-
-void test_list_push_front();
-void test_list_size();
+#include "test_bonus.h"
 
 int main()
 {
 	test_list_push_front();
 	test_list_size();
+	test_list_remove_if();
 	return 0;
 }
