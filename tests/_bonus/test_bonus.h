@@ -4,6 +4,7 @@
 #include "../../includes/libasm_bonus.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 void test_print_lst(t_list *lst_head);
