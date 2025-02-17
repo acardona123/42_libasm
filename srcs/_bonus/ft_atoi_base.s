@@ -1,0 +1,142 @@
+section .data
+	check_base_forbidden_char db "+- \f\n\r\t\v"
+
+section .bss
+	check_base_present_char	resb 128
+
+section .text
+
+	global ft_atoi_base
+	global check_base
+
+	extern trim_whitespaces
+	extern set_sign
+	extern get_absolute_value
+
+
+ft_atoi_base:
+	push rbp
+	mov rbp, rsp
+
+	push r10		;callee saved reg
+	push r11		;callee saved reg
+	push r12		;callee saved reg
+	mov r10, rdi	;store str
+	mov r11, rsi	;store base
+
+	;call check_base on base
+	.atoi_check_base_validity:
+		mov rdi, r11
+		;stack alignment: ok
+		call check_base
+		cmp rax, 0
+		jne .atoi_base_error_return
+	.atoi_trim_whitespaces_in_str:
+		mov rdi, r10
+		call trim_whitespaces
+		mov r10, rax
+	.atoi_set_sign:
+		;store str in the stack to be abe to give its address as an argument
+		sub rsp, 8		;allocate mem on the stack
+		mov [rsp], r10
+		mov rdi, rsp
+		call set_sign
+		mov r12, rax	;store sign
+		mov r10, [rsp]	;retrieve str trimmed from its +- prefixes
+		add rsp, 8		;clean memory
+	.atoi_get_absolute_value:
+		mov rdi, r10
+		mov rsi, r11
+		call get_absolute_value
+	imul r12	;multiply the result (the absolute value) by he sign
+	
+.atoi_base_return:
+	pop r12
+	pop r11
+	pop r10
+	pop rbp
+	ret
+.atoi_base_error_return:
+	mov rax, 0
+	jmp	.atoi_base_return
+
+
+check_base:
+	; push rbp
+	; mov rbp, rsp
+
+	.init_present_char:
+		xor rcx, rcx						;init for loop index
+		.for_loop_start:
+			cmp rcx, 8
+			jge .check_duplicates_or_forbidden
+			lea rdx, [rel check_base_forbidden_char]
+			add rdx, rcx
+			movzx rsi, byte [rdx]		;Move with Zero-Extend to get forbidden_char[i]
+			lea rdx, [rel check_base_present_char]
+			add rdx, rsi
+			mov byte [rdx], 1
+			inc rcx
+			jmp .for_loop_start
+	.check_duplicates_or_forbidden:
+		xor rcx, rcx	;init while loop index
+		mov rdx, rdi	;store base to inc it
+		.while_loop_start:
+			cmp rcx, 128
+			jge .check_base_size
+			movzx rsi, byte [rdx]			;get base[i]
+			cmp rsi, 0				
+			je .check_base_size
+
+			lea r8, [rel check_base_present_char]
+			add rsi,  r8	;get present_char + base[i]
+			cmp byte [rsi], 1
+			je .check_base_error
+			mov byte [rsi], 1
+			inc rcx
+			inc rdx
+			jmp .while_loop_start
+	.check_base_size:
+		cmp rdx, 1
+		jle .check_base_error
+		cmp rdx, 128
+		je .check_base_error
+		mov rax, 0
+	.check_base_return:
+		; pop rbp
+		; mov rbp, rsp
+		ret
+	.check_base_error:
+		mov rax, 1
+		jmp .check_base_return
+
+
+
+
+
+; trim_whitespaces:
+; 	push rbp
+; 	mov rbp, rsp
+
+
+
+; 	pop rbp
+; 	mov rbp, rsp
+
+; set_sign:
+; 	push rbp
+; 	mov rbp, rsp
+
+
+
+; 	pop rbp
+; 	mov rbp, rsp
+
+; get_absolute_value:
+; 	push rbp
+; 	mov rbp, rsp
+
+
+
+; 	pop rbp
+; 	mov rbp, rsp
