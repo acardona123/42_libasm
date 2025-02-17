@@ -1,5 +1,6 @@
 section .data
 	check_base_forbidden_char db "+- \f\n\r\t\v"
+	whitespace_char db " \f\n\r\t\v"
 
 section .bss
 	ascii_char	resb 128
@@ -138,14 +139,47 @@ check_base_update_ascii:
 		ret
 
 
-; trim_whitespaces:
-; 	push rbp
-; 	mov rbp, rsp
+trim_whitespaces:
+	; push rbp
+	; mov rbp, rsp
+
+	call trim_whitespaces_update_ascii
+	.trim_first_loop:
+		cmp [rdi], byte 0
+		je .trim_whitespaces_ret
+		movzx rax, byte [rdi]
+		lea rdx, [rel ascii_char]
+		cmp byte [rdx + rax], 1
+		jne .trim_whitespaces_ret
+		inc rdi
+		jmp .trim_first_loop
+	.trim_whitespaces_ret:
+	mov rax, rdi
+	; pop rbp
+	; mov rbp, rsp
+	ret
 
 
+trim_whitespaces_update_ascii:
+	; push rbp
+	; mov rbp, rsp
+	xor rcx, rcx						;init for loop index
+	.trim_loop_start:
+		cmp rcx, 6
+		jge .trim_whitespaces_update_ascii_ret
+		lea rdx, [rel whitespace_char]
+		add rdx, rcx
+		movzx rsi, byte [rdx]		;Move with Zero-Extend to get forbidden_char[i]
+		lea rdx, [rel ascii_char]
+		add rdx, rsi
+		mov byte [rdx], 1
+		inc rcx
+		jmp .trim_loop_start
+	.trim_whitespaces_update_ascii_ret:
+	; pop rbp
+	; mov rbp, rsp
+		ret
 
-; 	pop rbp
-; 	mov rbp, rsp
 
 ; set_sign:
 ; 	push rbp
