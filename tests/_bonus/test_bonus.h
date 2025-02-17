@@ -9,6 +9,9 @@
 
 void test_print_lst(t_list *lst_head);
 void test_print_lst_str(t_list *lst_head);
+void test_print_lst_int(t_list *lst_head);
+void test_print_lst_int_silent(t_list *lst_head);
+
 void test_list_push_front();
 void test_list_size();
 void test_list_remove_if();
