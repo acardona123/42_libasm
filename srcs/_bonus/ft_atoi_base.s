@@ -2,7 +2,7 @@ section .data
 	check_base_forbidden_char db "+- \f\n\r\t\v"
 
 section .bss
-	check_base_present_char	resb 128
+	ascii_char	resb 128
 
 section .text
 
@@ -66,18 +66,22 @@ check_base:
 	; mov rbp, rsp
 
 	.init_present_char:
-		xor rcx, rcx						;init for loop index
-		.for_loop_start:
-			cmp rcx, 8
-			jge .check_duplicates_or_forbidden
-			lea rdx, [rel check_base_forbidden_char]
-			add rdx, rcx
-			movzx rsi, byte [rdx]		;Move with Zero-Extend to get forbidden_char[i]
-			lea rdx, [rel check_base_present_char]
-			add rdx, rsi
-			mov byte [rdx], 1
-			inc rcx
-			jmp .for_loop_start
+		mov r8, rdi	;save base
+		mov rdi, 1
+		call check_base_update_ascii
+		mov rdi, r8
+		; xor rcx, rcx						;init for loop index
+		; .for_loop_start:
+		; 	cmp rcx, 8
+		; 	jge .check_duplicates_or_forbidden
+		; 	lea rdx, [rel check_base_forbidden_char]
+		; 	add rdx, rcx
+		; 	movzx rsi, byte [rdx]		;Move with Zero-Extend to get forbidden_char[i]
+		; 	lea rdx, [rel ascii_char]
+		; 	add rdx, rsi
+		; 	mov byte [rdx], 1
+		; 	inc rcx
+		; 	jmp .for_loop_start
 	.check_duplicates_or_forbidden:
 		xor rcx, rcx	;init while loop index
 		mov rdx, rdi	;store base to inc it
@@ -88,7 +92,7 @@ check_base:
 			cmp rsi, 0				
 			je .check_base_size
 
-			lea r8, [rel check_base_present_char]
+			lea r8, [rel ascii_char]
 			add rsi,  r8	;get present_char + base[i]
 			cmp byte [rsi], 1
 			je .check_base_error
@@ -103,6 +107,9 @@ check_base:
 		je .check_base_error
 		mov rax, 0
 	.check_base_return:
+		.reset_ascii_char:
+			mov rdi, 0
+			call check_base_update_ascii
 		; pop rbp
 		; mov rbp, rsp
 		ret
@@ -110,8 +117,25 @@ check_base:
 		mov rax, 1
 		jmp .check_base_return
 
-
-
+check_base_update_ascii:
+	; push rbp
+	; mov rbp, rsp
+	xor rcx, rcx						;init for loop index
+	.for_loop_start:
+		cmp rcx, 8
+		jge .check_base_update_ascii_ret
+		lea rdx, [rel check_base_forbidden_char]
+		add rdx, rcx
+		movzx rsi, byte [rdx]		;Move with Zero-Extend to get forbidden_char[i]
+		lea rdx, [rel ascii_char]
+		add rdx, rsi
+		mov byte [rdx], dil
+		inc rcx
+		jmp .for_loop_start
+	.check_base_update_ascii_ret:
+	; pop rbp
+	; mov rbp, rsp
+		ret
 
 
 ; trim_whitespaces:
