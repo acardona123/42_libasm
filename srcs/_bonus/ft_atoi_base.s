@@ -9,9 +9,8 @@ section .text
 
 	global ft_atoi_base
 	global check_base
-
-	extern trim_whitespaces
-	extern set_sign
+	global trim_whitespaces
+	global set_sign
 	extern get_absolute_value
 
 
@@ -26,6 +25,11 @@ ft_atoi_base:
 	mov r11, rsi	;store base
 
 	;call check_base on base
+	cmp rdi, 0
+	je .atoi_base_error_return
+	cmp rsi, 0
+	je .atoi_base_error_return
+
 	.atoi_check_base_validity:
 		mov rdi, r11
 		;stack alignment: ok
@@ -181,14 +185,41 @@ trim_whitespaces_update_ascii:
 		ret
 
 
-; set_sign:
-; 	push rbp
-; 	mov rbp, rsp
+set_sign:
+	; push rbp
+	; mov rbp, rsp
+	.count_minus_char:
+		xor rax, rax	;count number of - signs
+		.sign_while:
+			.sign_while_tests:
+				mov rsi, [rdi]	; get *str
+				movzx rsi, byte [rsi]	; get **str
+				cmp rsi, 0
+				je .deduce_sign_from_minus_count
+				cmp rsi, '-'
+				je .minus_char
+				cmp rsi, '+'
+				je .all_char
+				jmp .deduce_sign_from_minus_count
+			.sign_while_content:
+				.minus_char:
+					xor rax, 1
+				.all_char:
+					inc DWORD [rdi]
+					jmp .sign_while
+	.deduce_sign_from_minus_count:
+		; pop rbp
+		; mov rbp, rsp
+		cmp rax, 0
+		je .sign_pos
+		.sign_neg:
+			mov rax, -1
+			ret
+		.sign_pos:
+			mov rax, 1
+			ret
 
 
-
-; 	pop rbp
-; 	mov rbp, rsp
 
 ; get_absolute_value:
 ; 	push rbp
