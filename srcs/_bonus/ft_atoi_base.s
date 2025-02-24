@@ -8,209 +8,211 @@ section .bss
 section .text
 
 	global ft_atoi_base
+
 	global check_base
 	global trim_whitespaces
 	global set_sign
-	extern get_absolute_value
+	global get_absolute_value
 
 
 ft_atoi_base:
 	push rbp
 	mov rbp, rsp
 
-	push r10		;callee saved reg
-	push r11		;callee saved reg
-	push r12		;callee saved reg
-	mov r10, rdi	;store str
-	mov r11, rsi	;store base
+	push	r12		;callee saved reg
+	push	r13		;callee saved reg
+	push	r14		;callee saved reg
+	mov		r12, rdi	;store str
+	mov		r13, rsi	;store base
 
 	;call check_base on base
-	cmp rdi, 0
-	je .atoi_base_error_return
-	cmp rsi, 0
-	je .atoi_base_error_return
+	cmp	rdi, 0
+	je	.atoi_base_error_return
+	cmp	rsi, 0
+	je	.atoi_base_error_return
 
 	.atoi_check_base_validity:
-		mov rdi, r11
+		mov		rdi, r13
 		;stack alignment: ok
-		call check_base
-		cmp rax, 0
-		jne .atoi_base_error_return
+		call	check_base
+		cmp		rax, 0
+		jne		.atoi_base_error_return
 	.atoi_trim_whitespaces_in_str:
-		mov rdi, r10
-		call trim_whitespaces
-		mov r10, rax
+		mov		rdi, r12
+		call	trim_whitespaces
+		mov		r12, rax
 	.atoi_set_sign:
 		;store str in the stack to be abe to give its address as an argument
-		sub rsp, 8		;allocate mem on the stack
-		mov [rsp], r10
-		mov rdi, rsp
-		call set_sign
-		mov r12, rax	;store sign
-		mov r10, [rsp]	;retrieve str trimmed from its +- prefixes
-		add rsp, 8		;clean memory
+		sub		rsp, 8			;allocate mem on the stack
+		mov		[rsp], r12		;*rsp = str
+		mov		rdi, rsp
+		sub		rsp, 8			;stack alignment
+		call	set_sign
+		mov		r14, rax		;store sign
+		mov		r12, [rsp + 8]	;retrieve the updated str
+		add		rsp, 16			;clean memory
 	.atoi_get_absolute_value:
-		mov rdi, r10
-		mov rsi, r11
-		call get_absolute_value
-	imul r12	;multiply the result (the absolute value) by he sign
-	
-.atoi_base_return:
-	pop r12
-	pop r11
-	pop r10
-	pop rbp
-	ret
-.atoi_base_error_return:
-	mov rax, 0
-	jmp	.atoi_base_return
+		mov		rdi, r12
+		mov		rsi, r13
+		call	get_absolute_value
+	imul 	r14				;multiply the result (the absolute value) by he sign, store result in rax and (rdx if result size > 64 bits)
+	.atoi_base_return:
+		pop	r14
+		pop	r13
+		pop	r12
+		mov	rsp, rbp
+		pop	rbp
+		ret
+	.atoi_base_error_return:
+		mov	rax, 0
+		jmp	.atoi_base_return
 
 
 check_base:
 	; push rbp
 	; mov rbp, rsp
-
 	.init_present_char:
-		mov r8, rdi	;save base
-		mov rdi, 1
-		call check_base_update_ascii
-		mov rdi, r8
-		; xor rcx, rcx						;init for loop index
-		; .for_loop_start:
-		; 	cmp rcx, 8
-		; 	jge .check_duplicates_or_forbidden
-		; 	lea rdx, [rel check_base_forbidden_char]
-		; 	add rdx, rcx
-		; 	movzx rsi, byte [rdx]		;Move with Zero-Extend to get forbidden_char[i]
-		; 	lea rdx, [rel ascii_char]
-		; 	add rdx, rsi
-		; 	mov byte [rdx], 1
-		; 	inc rcx
-		; 	jmp .for_loop_start
+		push rdi	;save base
+		sub rsp, 8
+		call put_base_forbidden_char_in_ascii
+		add rsp, 8
+		pop rdi
 	.check_duplicates_or_forbidden:
+		lea rdx, [rel ascii_char]
 		xor rcx, rcx	;init while loop index
-		mov rdx, rdi	;store base to inc it
 		.while_loop_start:
-			cmp rcx, 128
+			cmp rcx, 128			;if len(base) > 128 (ascii table size) there will be duplicates so we stop
 			jge .check_base_size
-			movzx rsi, byte [rdx]			;get base[i]
-			cmp rsi, 0				
+			movzx rsi, byte [rdi + rcx]	;get base[i]
+			cmp rsi, 0				;check if base[i] = 0 ie if we checked all base's chars
 			je .check_base_size
 
-			lea r8, [rel ascii_char]
-			add rsi,  r8	;get present_char + base[i]
+			add rsi,  rdx		;get present_char + base[i]
 			cmp byte [rsi], 1
 			je .check_base_error
 			mov byte [rsi], 1
 			inc rcx
-			inc rdx
 			jmp .while_loop_start
 	.check_base_size:
-		cmp rdx, 1
+		cmp rcx, 1
 		jle .check_base_error
-		cmp rdx, 128
+		cmp rcx, 128
 		je .check_base_error
 		mov rax, 0
 	.check_base_return:
-		.reset_ascii_char:
-			mov rdi, 0
-			call check_base_update_ascii
+		; mov esp, ebp
 		; pop rbp
-		; mov rbp, rsp
 		ret
 	.check_base_error:
 		mov rax, 1
 		jmp .check_base_return
 
-check_base_update_ascii:
+;void put_base_forbidden_char_in_ascii(void)
+put_base_forbidden_char_in_ascii:
 	; push rbp
 	; mov rbp, rsp
+	lea r10, [rel check_base_forbidden_char]
+	lea r11, [rel ascii_char]
 	xor rcx, rcx						;init for loop index
 	.for_loop_start:
 		cmp rcx, 8
-		jge .check_base_update_ascii_ret
-		lea rdx, [rel check_base_forbidden_char]
-		add rdx, rcx
-		movzx rsi, byte [rdx]		;Move with Zero-Extend to get forbidden_char[i]
-		lea rdx, [rel ascii_char]
-		add rdx, rsi
-		mov byte [rdx], dil
+		jge .put_base_forbidden_char_in_ascii_ret
+		movzx rsi, byte [r10 + rcx]		;Move with Zero-Extend to get forbidden_char[i]
+		mov byte [r11 + rsi], 1			;ascii_char[forbidden_char[i]] = 1
 		inc rcx
 		jmp .for_loop_start
-	.check_base_update_ascii_ret:
-	; pop rbp
-	; mov rbp, rsp
+	.put_base_forbidden_char_in_ascii_ret:
+		; mov esp, ebp
+		; pop rbp
 		ret
 
 
+; char *trim_whitespaces(char *str)
 trim_whitespaces:
 	; push rbp
 	; mov rbp, rsp
-
-	call trim_whitespaces_update_ascii
+	.trim_set_ascii_table:
+		push	rdi		;save str
+		sub		rsp, 8	;stack_alignment
+		mov		rdi, 0
+		call	reset_ascii
+		call	trim_whitespaces_update_ascii
+		add		rsp, 8
+		pop		r8	;retrieve str
+	lea	rdx, [rel ascii_char]
 	.trim_first_loop:
-		cmp [rdi], byte 0
+		cmp [r8], byte 0
 		je .trim_whitespaces_ret
-		movzx rax, byte [rdi]
-		lea rdx, [rel ascii_char]
-		cmp byte [rdx + rax], 1
+		movzx rax, byte [r8]
+		cmp byte [rdx + rax], byte 1
 		jne .trim_whitespaces_ret
-		inc rdi
+		inc r8
 		jmp .trim_first_loop
 	.trim_whitespaces_ret:
-	mov rax, rdi
-	; pop rbp
-	; mov rbp, rsp
-	ret
+		mov rax, r8
+		; mov esp, ebp
+		; pop rbp
+		ret
 
+; void reset_ascii(char reset_value)
+reset_ascii:
+	lea rsi, [rel ascii_char]
+	xor rcx, rcx
+	.reset_ascii_loop:
+		cmp rcx, 128
+		jge .reset_ascii_ret
+		mov byte [rsi + rcx], dil
+		inc rcx
+		jmp .reset_ascii_loop
+	.reset_ascii_ret:
+		ret
 
+; void trim_whitespaces_update_ascii( void )
 trim_whitespaces_update_ascii:
 	; push rbp
 	; mov rbp, rsp
+	lea rdi, [rel whitespace_char]
+	lea rsi, [rel ascii_char]
 	xor rcx, rcx						;init for loop index
 	.trim_loop_start:
 		cmp rcx, 6
 		jge .trim_whitespaces_update_ascii_ret
-		lea rdx, [rel whitespace_char]
-		add rdx, rcx
-		movzx rsi, byte [rdx]		;Move with Zero-Extend to get forbidden_char[i]
-		lea rdx, [rel ascii_char]
-		add rdx, rsi
-		mov byte [rdx], 1
+		movzx rdx, byte [rcx + rdi]		;Move with Zero-Extend to get whitespace_char[i]
+		mov byte [rsi + rdx], 1			;ascii_char[whitespace_char[i]] = 1
 		inc rcx
 		jmp .trim_loop_start
 	.trim_whitespaces_update_ascii_ret:
-	; pop rbp
-	; mov rbp, rsp
+		; mov esp, ebp
+		; pop rbp
 		ret
 
 
+; int set_sign(char **str)
 set_sign:
 	; push rbp
 	; mov rbp, rsp
 	.count_minus_char:
-		xor rax, rax	;count number of - signs
+		xor rcx, rcx	;count number of - signs
 		.sign_while:
 			.sign_while_tests:
-				mov rsi, [rdi]	; get *str
-				movzx rsi, byte [rsi]	; get **str
-				cmp rsi, 0
-				je .deduce_sign_from_minus_count
-				cmp rsi, '-'
-				je .minus_char
-				cmp rsi, '+'
-				je .all_char
-				jmp .deduce_sign_from_minus_count
+				mov		rsi, [rdi]			; rsi = *str
+				movzx	rsi, byte [rsi]		; get **str
+				cmp		rsi, 0
+				je		.deduce_sign_from_minus_count
+				cmp		rsi, '-'
+				je		.minus_char
+				cmp		rsi, '+'
+				je		.all_char
+				jmp		.deduce_sign_from_minus_count
 			.sign_while_content:
 				.minus_char:
-					xor rax, 1
+					xor rcx, 1
 				.all_char:
-					inc DWORD [rdi]
+					inc qword [rdi]
 					jmp .sign_while
 	.deduce_sign_from_minus_count:
 		; pop rbp
-		; mov rbp, rsp
-		cmp rax, 0
+		cmp rcx, 0
 		je .sign_pos
 		.sign_neg:
 			mov rax, -1
@@ -220,12 +222,68 @@ set_sign:
 			ret
 
 
+;int get_absolute_value(char *str, char *base)
+get_absolute_value:
+	push	rbp
+	mov		rbp, rsp
 
-; get_absolute_value:
-; 	push rbp
-; 	mov rbp, rsp
+	push	r12
+	push	r13
+	mov		r12, rdi	;save str
+	mov		r13, rsi	;save base
+	.get_abs_set_ascii_table:
+		;reset fill ascii_char with -1
+		mov		rdi, -1
+		call	reset_ascii
+		;call of set_base_chars_values
+		mov		rdi, r13				;arg1 = base
+		call	set_base_chars_values
+	.get_abs_calculate_str_value:
+		mov		rdi, r12				;arg1 = str
+		mov		rsi, rax				;arg2 = len(base) = ret of set_base_chars_values
+		call	calculate_str_value
+	pop r13
+	pop r12
+	mov rsp, rbp
+	pop rbp
+	ret
 
 
+;int get_abs_set_base_chars_values(char *base) ; return len(base)
+;set the values of each char of the base
+set_base_chars_values:
+	; push rbp
+	; mov rbp, rsp
+	lea	rdx, [rel ascii_char]
+	xor	rcx, rcx							;init for loop index i
+	.set_base_chars_values_loop:
+		movzx	rsi, byte [rdi + 1 * rcx]	;get base[i]
+		cmp		rsi, 0
+		je		.set_base_chars_values_ret
+		mov		[rdx + rsi], rcx			;ascii_char[base[i]] = i
+		inc		rcx
+		jmp		.set_base_chars_values_loop
+	.set_base_chars_values_ret:
+		; mov rsp, rbp
+		; pop rbp
+		mov	rax, rcx
+		ret				;return i = len(base)
 
-; 	pop rbp
-; 	mov rbp, rsp
+
+; int calculate_str_value(char *str, int len_base), char *ascii_char is global
+calculate_str_value:
+	lea	r8, [rel ascii_char]				;load the values of each char compared to the base (/!\ rax and rdx are gonna be affected by mul, can't be used there)
+	xor	rax, rax							;abs_val
+	.calculate_str_value_loop:
+		movzx	rcx, byte [rdi]				; get *str
+		cmp		rcx, 0
+		je		.calculate_str_value_ret
+		movzx	r9, byte [r8 + rcx]			;ascii_char[*str]
+		cmp		r9, 0xff					; == -1?
+		je		.calculate_str_value_ret
+		mul 	rsi							;abs_val *= len_base
+		add 	rax, r9						;abs_val += ascii_char[*str]
+		inc		rdi							;++str
+		jmp		.calculate_str_value_loop
+	.calculate_str_value_ret:
+		ret
