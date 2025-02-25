@@ -7,10 +7,8 @@
 section .text
 
 	global ft_list_sort
-	extern ft_list_size
-	extern _ft_list_sort_recursive
-	extern _split_list
 	extern _merge_lists
+	extern ft_list_size
 
 ft_list_sort:
 	.ft_list_sort_prologue:
@@ -101,6 +99,62 @@ _ft_list_sort_recursive:
 			pop	rbp
 		ret
 
+; void _split_list(t_list *begin_list, int list_size, t_list	**head_left, t_list	**head_right)
+_split_list:
+	.split_list_prologue:
+		push	rbp
+		mov		rbp, rsp
+	mov		[rdx], rdi				; set *head_left = begin_list
+	.get_list_middle_elem:			; get the last elem of the first half of the list
+		; mov	rdi, rdi			; arg1 = begin_list (already the case)
+		; mov	rsi, rsi			; arg2 = list_size (already the case)
+		push	rcx
+		sub 	rsp, 8				; stack alignment
+		call	_get_middle_element
+		add		rsp, 8
+		pop		rcx
+	.split_after_middle_elem:
+		add		rax, 8					; get pointer to middle_elem->next
+		mov		rdi, [rax]				; get value of middle_elem->next
+		mov		[rcx], rdi				; set *head_right = middle_elem->next
+		mov		qword [rax], 0			; set middle_elem->next = 0
+	.split_list_ret:
+		.split_list_epilogue:
+			mov		rsp, rbp
+			pop		rbp
+		ret
+
+; t_list* _get_middle_element(t_list *begin_list, int list_size)
+_get_middle_element:
+	; .get_mid_elem_prologue:
+	; 	push	rbp
+	; 	mov		rbp, rsp
+	.get_mid_elem_index_calc:
+		mov		rax, rsi		; dividend =  list_size
+		xor		rdx, rdx		; dividend complement
+		mov		r8, 2			; divisor = 2
+		div		r8				; list_size / 2
+		dec		rax				; list_size / 2 - 1
+		mov		rsi, rax		; save i_max = list_size / 2 - 1
+	.get_mid_elem_for_loop:
+		.get_mid_elem_for_loop_init:
+			xor		rcx, rcx						; i = 0
+			; mov	rdi, rdi						; t_list *elem = begin_list
+		.get_mid_elem_for_loop_routine:
+			.get_mid_elem_for_loop_test:
+				cmp		rcx, rsi
+				jge		.get_mid_elem_ret			; if i >= imax
+			.get_mid_elem_for_loop_content:	
+				mov		rdi, qword [rdi + 8]		; elem = elem->next
+				inc		rcx							; ++i
+				jmp		.get_mid_elem_for_loop_routine
+	.get_mid_elem_ret:
+		; .get_mid_elem_epilogue:
+		; 	mov		rsp, rbp
+		; 	pop		rbp
+		mov		rax, rdi		; return (elem)
+		ret
+
 
 
 ; ========================================================================================
@@ -147,7 +201,6 @@ _ft_list_sort_recursive:
 ; {
 ; 	int 	id_middle_lst;
 ; 	t_list*	elem;
-; 	int		id;
 
 ; 	id_middle_lst = list_size / 2 - 1;
 
