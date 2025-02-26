@@ -7,7 +7,6 @@
 section .text
 
 	global ft_list_sort
-	extern _merge_lists
 	extern ft_list_size
 
 ft_list_sort:
@@ -99,6 +98,11 @@ _ft_list_sort_recursive:
 			pop	rbp
 		ret
 
+
+
+
+; ===== Split list in halves =====
+
 ; void _split_list(t_list *begin_list, int list_size, t_list	**head_left, t_list	**head_right)
 _split_list:
 	.split_list_prologue:
@@ -155,6 +159,153 @@ _get_middle_element:
 		mov		rax, rdi		; return (elem)
 		ret
 
+
+
+
+
+
+; ===== Merge two sorted lists together =====
+
+
+; t_list *_merge_lists(t_list *head_left, t_list *head_right, int (*cmp)())
+_merge_lists:
+	.merge_prologue:
+		push	rbp
+		mov		rbp, rsp
+		push	r12					;callee-saved registers
+		push	r13					;callee-saved registers
+		push	r14					;callee-saved registers
+		push	r15					;callee-saved registers
+	.merge_variable_declaration:
+		sub		rsp, 32					; mem allocation for those var:
+		mov		[rsp], rdi				; save arg1 head_left
+		mov		[rsp + 8], rsi			; save arg2 head_right
+		mov		qword [rsp + 16], 0		; declaration of sorted_list_head
+		mov		qword [rsp + 24], 0		; declaration of sorted_last
+	.merge_main_args_save:
+		mov		r12, rsp
+		add		r12, 24				; &sorted_last
+		mov		r13, rsp			; &head_left
+		mov		r14, rsp
+		add		r14, 8				; &head_right
+		mov		r15, rdx			; cmp
+	.merge_extract_first_elem_as_head:
+		mov		rdi, r12			; arg1 = &sorted_last
+		mov		rsi, r13			; arg2 = &head_left
+		mov		rdx, r14			; arg3 = &head_right
+		mov		rcx, r15			; arg4 = cmp
+		; sub	rsp, 0				; stack alignment already done
+		call	_merge_one_elem
+		mov		rdi, [r12]
+		mov		[rsp + 16], rdi		; sorted_list_head = sorted_last
+	.merge_extract_all_remaining_elem:
+		._merge_while:
+			.merge_while_test:				; head_left || head_right
+				cmp		qword [rsp], 0
+				jne		.merge_while_content
+				cmp		qword [rsp + 8], 0
+				jne		.merge_while_content
+				jmp .merge_ret
+			.merge_while_content:
+				mov		rdi, r12			; arg1 = &sorted_last
+				mov		rsi, r13			; arg2 = &head_left
+				mov		rdx, r14			; arg3 = &head_right
+				mov		rcx, r15			; arg4 = cmp
+				; sub	rsp, 0				; stack alignment already done
+				call	_merge_one_elem
+				jmp .merge_while_test
+	.merge_ret:
+		mov		rax, [rsp + 16]				;return sorted_list_head
+		.merge_epilogue:
+			add		rsp, 32					;free mem
+			pop		r15
+			pop		r14
+			pop		r13
+			pop		r12
+			mov		rsp, rbp
+			pop		rbp
+		ret
+
+
+; void	_merge_one_elem(t_list **sorted_list_last, t_list **head_left, t_list **head_right, int (*cmp)())
+_merge_one_elem:
+	.merge_one_elem_prologue:
+		push	rbp
+		mov		rbp, rsp
+	.set_args_of_pop_src_first_after_dst:
+		.merge_one_test_which_list_to_merge:
+			cmp		qword [rsi], 0					; test *head_left vs 0
+			je		.merge_one_set_arg_right
+			cmp		qword [rdx], 0					; test *head_right vs 0
+			je		.merge_one_set_arg_left
+			.cmp_lists_heads_data:
+				.save_variables_through_call:
+					push	r12						; callee-saved regs
+					push	r13						; callee-saved regs
+					push	r14						; callee-saved regs
+					mov		r12, rdi				; save sorted_list_last
+					mov		r13, rsi				; save head_left
+					mov		r14, rdx				; save head_right
+				.set_comp_args:
+					mov		rdi, [r13]
+					mov		rdi, [rdi]				; arg1 = (*head_left)->data
+					mov		rsi, [rdx]
+					mov		rsi, [rsi]				; arg2 = (*head_right)->data
+				.call_comparison:
+					sub		rsp, 8					; stack alignment
+					call	rcx					; (*cmp)((*head_left)->data, (*head_right)->data))
+					add		rsp, 8
+				.restore_saved_regs:
+					mov		rdi, r12				; restore sorted_list_last
+					mov		rsi, r13				; restore head_left
+					mov		rdx, r14				; restore head_right
+					pop		r14						; restore callee-saved regs
+					pop		r13						; restore callee-saved regs
+					pop		r12						; restore callee-saved regs
+			
+			cmp		eax, 0
+			jle		.merge_one_transfer_elem
+		.merge_one_set_arg_right:
+			mov		rsi, rdx			; arg2 = head_right
+			jmp		.merge_one_transfer_elem
+		.merge_one_set_arg_left:
+			; mov	rsi, rsi			; arg2 = head_left
+			jmp		.merge_one_transfer_elem
+	.merge_one_transfer_elem:
+		; mov	rdi, rdi				; arg1 = sorted_list_last
+		; sub	rsp, 0					; stack already aligned
+		mov  r8, [rsi]	;test to check which one is pop
+		mov r8, [r8]
+		call	_pop_src_first_after_dst
+	.merge_one_elem_ret:
+		._merge_one_elem_epilogue:
+			mov		rsp, rbp
+			pop		rbp
+		ret
+
+
+; void	_pop_src_first_after_dst(t_list **last_dest, t_list **head_src)
+_pop_src_first_after_dst:
+	.pop_first_to_dst_prologue:
+		push	rbp
+		mov		rbp, rsp
+	mov		rdx, qword [rdi]				; save *last_dest
+	mov		rcx, qword [rsi]				; save *head_src
+	.pop_first_to_dst_append_to_dest_elem:
+		cmp		rdx, 0
+		je		.pop_first_to_dst_update_last_dest
+		mov		qword [rdx + 8], rcx		; (*last_dest)->next = *head_src
+	.pop_first_to_dst_update_last_dest:
+		mov		qword [rdi], rcx			; *last_dest = *head_src
+		mov		r8, [rcx + 8]		
+		mov		[rsi], r8			; *head_src = (*head_src)->next;
+		mov		r8, [rdi]
+		mov		qword [r8 + 8], 0
+	.pop_first_to_dst_ret:
+		.pop_first_to_dst_epilogue:
+			mov		rsp, rbp
+			pop		rbp
+		ret
 
 
 ; ========================================================================================
@@ -214,7 +365,7 @@ _get_middle_element:
 ; // ==== merge elem ====
 
 
-; void	_pop_src_first_to_dst_back(t_list **last_dest, t_list **head_src)
+; void	_pop_src_first_after_dst(t_list **last_dest, t_list **head_src)
 ; {
 ; 	if (*last_dest)
 ; 		(*last_dest)->next = *head_src;
@@ -226,13 +377,13 @@ _get_middle_element:
 ; void	_merge_one_elem(t_list **sorted_list_last, t_list **head_left, t_list **head_right, int (*cmp)())
 ; {
 ; 	if (!*head_left)
-; 		_pop_src_first_to_dst_back(sorted_list_last, head_right);
+; 		_pop_src_first_after_dst(sorted_list_last, head_right);
 ; 	else if (!*head_right)
-; 		_pop_src_first_to_dst_back(sorted_list_last, head_left);
+; 		_pop_src_first_after_dst(sorted_list_last, head_left);
 ; 	else if (cmp((*head_left)->data, (*head_right)->data) < 0)
-; 		_pop_src_first_to_dst_back(sorted_list_last, head_left);
+; 		_pop_src_first_after_dst(sorted_list_last, head_left);
 ; 	else
-; 		_pop_src_first_to_dst_back(sorted_list_last, head_right);
+; 		_pop_src_first_after_dst(sorted_list_last, head_right);
 ; }
 
 ; t_list *_merge_lists(t_list *head_left, t_list *head_right, int (*cmp)())
