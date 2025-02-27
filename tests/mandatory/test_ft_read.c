@@ -26,14 +26,18 @@ int test_read(int test_std_in)
 
 	printf("=== Tests of ft_read ===\n\n");
 
-	error_cpt = 0;
+	error_cpt = 1;
 	if (test_std_in)
 		error_cpt += _test_read_stdin();
 	error_cpt += _test_read_valid_file();
 	error_cpt += _test_read_write_only_file();
 	
-	printf("\nResults: %d error(s)\n", error_cpt);
-	printf("--- End ---\n\n\n");
+	printf("\n-----------\nRESULTS: ");
+	if (error_cpt)
+		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+	else
+		printf("Success\n");
+	printf("--- End ---\n");
 	return error_cpt != 0;
 }
 

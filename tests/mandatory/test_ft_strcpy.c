@@ -13,9 +13,13 @@ int test_strcpy()
 	error_cpt += cmp_strcpy_ftstrcpy("000\ttotoooooooooooooooooooo");
 	error_cpt += test_strcpy_overflow();
 
-	printf("\nResults: %d error(s)\n", error_cpt);
+		printf("\n-----------\nRESULTS: ");
+	if (error_cpt)
+		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+	else
+		printf("Success\n");
 
-	printf("--- End ---\n\n\n");
+	printf("--- End ---\n");
 	return error_cpt != 0;
 }
 

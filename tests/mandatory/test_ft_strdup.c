@@ -16,8 +16,12 @@ int test_strdup()
 	error_cpt += _test_strdup_empty_str();
 	error_cpt += _test_random_str(number_of_random_str_tested);
 
-	printf("\nResults: %d error(s)\n", error_cpt);
-	printf("--- End ---\n\n\n");
+		printf("\n-----------\nRESULTS: ");
+	if (error_cpt)
+		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+	else
+		printf("Success\n");
+	printf("--- End ---\n");
 	return error_cpt != 0;
 }
 

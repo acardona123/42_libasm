@@ -41,8 +41,12 @@ int test_list_remove_if()
 		printf("ok\n");
 	}	
 
-	printf("\nResults: %d error(s)\n", error_cpt);
-	printf("--- End ---\n\n\n");
+		printf("\n-----------\nRESULTS: ");
+	if (error_cpt)
+		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+	else
+		printf("Success\n");
+	printf("--- End ---\n");
 	return error_cpt != 0;
 }
 

@@ -36,7 +36,11 @@ int test_list_size()
 	printf("-len : %d vs %d -> %s\n", len, expected_len, len ==  expected_len ? "ok" : "KO");
 	error_cpt += len !=  expected_len;
 
-	printf("\nResults: %d error(s)\n", error_cpt);
-	printf("--- End ---\n\n\n");
+		printf("\n-----------\nRESULTS: ");
+	if (error_cpt)
+		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+	else
+		printf("Success\n");
+	printf("--- End ---\n");
 	return error_cpt != 0;
 }

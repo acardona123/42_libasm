@@ -14,8 +14,12 @@ int test_strlen()
 	error_cpt += cmp_strlen_ftstrlen("Loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong");
 	error_cpt += cmp_strlen_ftstrlen("bgjeogijegivj;kvmdiorgergeggfgfdgt5afavcvx");
 
-	printf("\nResults: %d error(s)\n", error_cpt);
-	printf("--- End ---\n\n\n");
+		printf("\n-----------\nRESULTS: ");
+	if (error_cpt)
+		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+	else
+		printf("Success\n");
+	printf("--- End ---\n");
 	return error_cpt != 0;
 }
 
