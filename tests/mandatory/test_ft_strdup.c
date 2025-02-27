@@ -1,9 +1,4 @@
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "../../includes/libasm.h"
+#include "test_mandatory.h"
 
 void test_strdup()
 {

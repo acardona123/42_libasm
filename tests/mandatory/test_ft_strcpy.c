@@ -1,9 +1,4 @@
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "../../includes/libasm.h"
+#include "test_mandatory.h"
 
 static int	cmp_strcpy_ftstrcpy(const char *src);
 static int test_strcpy_overflow();

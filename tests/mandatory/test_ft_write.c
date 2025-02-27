@@ -1,10 +1,5 @@
-#include <fcntl.h>
-#include <errno.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
+#include "test_mandatory.h"
 
-#include "../../includes/libasm.h"
 
 static int cmp_file_content(const char *file_name, const char *str_ref);
 

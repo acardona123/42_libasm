@@ -1,9 +1,5 @@
-#include <errno.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "test_mandatory.h"
 
-#include "../../includes/libasm.h"
 
 static int cmp_strlen_ftstrlen(const char *str);
 
