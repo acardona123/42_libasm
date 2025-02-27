@@ -3,7 +3,7 @@
 static int	_test_sort_empty_list();
 static	int _test_random_non_empty_lists(int number_of_tests, int list_len_max);
 
-void	test_list_sort()
+int	test_list_sort()
 {
 	int	number_of_tests = 2;
 	int	list_len_max	= 5;
@@ -17,6 +17,7 @@ void	test_list_sort()
 
 	printf("\nResults: %d error(s)\n", error_cpt);
 	printf("--- End ---\n\n\n");
+	return error_cpt != 0;
 }
 
 int int_cmp(void *int1, void *int2)
@@ -74,7 +75,7 @@ static int	_test_sorting_one_list_int(int list_size)
 
 	if (_generate_to_identical_lists_int(&list, &list_sorted, list_size))
 		return 0;
-	// ft_list_sort(&list_sorted, int_cmp);
+	ft_list_sort(&list_sorted, int_cmp);
 	error = _check_and_display_error(list, list_sorted);
 	list_free(list);
 	list_free(list_sorted);
