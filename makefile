@@ -27,10 +27,12 @@ TEST_SRC		= \
 					test_ft_strdup
 
 TEST_SRC_BONUS		= \
-					test_ft_list_display \
 					test_ft_list_push_front \
-					test_ft_list_size \
 					test_ft_list_remove_if \
+					test_ft_list_size \
+					test_ft_list_sort \
+					test_list_display \
+					test_list_tools
 
 SRC_DIR					=	srcs/
 SRC_MANDATORY_SUBDIR	=	mandatory/
