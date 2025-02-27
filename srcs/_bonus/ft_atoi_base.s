@@ -287,3 +287,122 @@ calculate_str_value:
 		jmp		.calculate_str_value_loop
 	.calculate_str_value_ret:
 		ret
+
+
+/*
+
+========================================================================================
+								Similar c code
+========================================================================================
+
+
+int ft_atoi_base(char *str, char *base)
+{
+	int 			sign;
+	unsigned int	absolute_value;
+
+	if (check_base(base))
+	{
+		printf("base KO\n");
+		return 0;
+	}
+	
+	str = trim_whitespaces(str);
+	sign = set_sign(&str);
+	absolute_value = get_absolute_value(str, base);
+	return sign * absolute_value;
+}
+
+static _check_base_update_ascii(int flag_value, char *present_char)
+{
+	char forbidden_char[] = "+- \f\n\r\t\v";
+	for (int i =0; i < 8; ++i)
+		present_char[forbidden_char[i]] = flag_value;
+}
+
+int check_base(char *base)
+{
+	char present_char[128] = {0};
+
+	_check_base_update_ascii(1, present_char);
+	int i = 0;
+	while (i < 128 && base[i])
+	{
+		if (present_char[base[i]] == 1)
+			return 1;
+		present_char[base[i]] = 1;
+		++i;
+	}
+	_check_base_update_ascii(0, present_char);
+	if (i <= 1 || i == 128)
+		return 1;
+	return 0;
+}
+
+void trim_init_present_char(char *present_char)
+{
+	char whitespace_char[] = " \f\n\r\t\v";
+
+	for (int i =0; i < 6; ++i)
+		present_char[whitespace_char[i]] = 1;
+}
+
+char *trim_whitespaces(char *str)
+{
+	char present_char[128] = {};
+
+	trim_init_present_char(present_char);
+	while (*str && present_char[*str] == 1)
+		++str;
+	return str;
+}
+
+int set_sign(char **str)
+{
+	int sign_neg;
+
+	sign_neg = 0;
+	while (**str && (**str == '-' || **str == '+'))
+	{
+		if (**str == '-')
+			sign_neg ^= 1;
+		++(*str);
+	}
+	if (sign_neg)
+		return -1;
+	return 1;
+}
+
+unsigned int get_absolute_value(char *str, char *base)
+{
+	int 	abs_val;
+	char 	char_value[128] = {};
+	int		len_base;
+	int 	i;
+
+	//clear char_value
+	for (int i = 0; i < 128; ++i)
+	char_value[i] = -1;
+	// set values of the base's chars in char_value
+	i = 0;
+	while (base[i])
+	{
+		char_value[base[i]] = i;
+		++i;
+	}
+	len_base = i;
+
+	// calculate str value
+	abs_val = 0;
+	while (*str)
+	{
+		if (char_value[*str] == -1)
+			break;
+		abs_val = abs_val * len_base + char_value[*str];
+		++str;
+	}
+
+	return abs_val;
+}
+
+*/
