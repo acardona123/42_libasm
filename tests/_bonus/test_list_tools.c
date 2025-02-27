@@ -1,5 +1,4 @@
 #include "test_bonus.h"
-#include <time.h>
 
 
 t_list *generate_list_int(int size)
