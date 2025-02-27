@@ -38,7 +38,7 @@ _ft_list_sort_recursive:
 	.recursion_prologue:
 		push 	rbp
 		mov 	rbp, rsp
-		sub		rsp, 8				;for helping stack alignment, after the 3 pushs the stack will be aligned
+		sub		rsp, 8				;for helping stack alignment, after the 3 pushes the stack will be aligned
 		push	r12
 		push	r13
 		push	r14
