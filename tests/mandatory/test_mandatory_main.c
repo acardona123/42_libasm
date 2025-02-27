@@ -23,7 +23,7 @@ int main()
 	failed_functions_cpt = 0;
 	fct_index = 0;
 	while(functions_to_test[fct_index])
-		failed_functions_cpt += (*functions_to_test[fct_index])();
+		failed_functions_cpt += (*functions_to_test[fct_index++])();
 
 	printf("==== MANDATORY TESTS RESULTS ====\n\n");
 	if (!failed_functions_cpt)
