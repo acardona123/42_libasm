@@ -1,6 +1,6 @@
 #include "test_bonus.h"
 
-void test_list_size()
+int test_list_size()
 {
 	printf("=== Tests of ft_list_size ===\n\n");
 	int error_cpt = 0;
@@ -38,4 +38,5 @@ void test_list_size()
 
 	printf("\nResults: %d error(s)\n", error_cpt);
 	printf("--- End ---\n\n\n");
+	return error_cpt != 0;
 }

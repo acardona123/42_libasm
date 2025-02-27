@@ -17,7 +17,7 @@ static int _test_remove_middle_elem( int print_details);
 static int _test_remove_first_elem( int print_details);
 
 
-void test_list_remove_if()
+int test_list_remove_if()
 {
 	printf("=== Tests of ft_list_list_remove_if ===\n\n");
 
@@ -43,6 +43,7 @@ void test_list_remove_if()
 
 	printf("\nResults: %d error(s)\n", error_cpt);
 	printf("--- End ---\n\n\n");
+	return error_cpt != 0;
 }
 
 static int _test_remove_middle_elem( int print_details)

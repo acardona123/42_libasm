@@ -22,10 +22,11 @@ void	list_free(t_list *list_head);
 int		list_size_c(t_list *lst);
 
 
-void	test_list_push_front();
-void	test_list_size();
-void	test_list_remove_if();
-void	test_list_sort();
+int	test_list_push_front();
+int	test_list_size();
+int	test_list_remove_if();
+int	test_list_sort();
+int	test_atoi_base();
 
 
 #endif

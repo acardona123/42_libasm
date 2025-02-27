@@ -3,7 +3,7 @@
 static int _test_preexisting_list( int print);
 static int _test_empty_list( int print);
 
-void test_list_push_front()
+int test_list_push_front()
 {
 	printf("=== Tests of ft_list_push_front ===\n\n");
 
@@ -32,6 +32,7 @@ void test_list_push_front()
 	printf("\nResults: %d error(s)\n", error_cpt);
 
 	printf("--- End ---\n\n\n");
+	return error_cpt != 0;
 }
 
 static int _test_preexisting_list( int print_details)

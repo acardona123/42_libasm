@@ -31,8 +31,9 @@ TEST_SRC_BONUS		= \
 					test_ft_list_remove_if \
 					test_ft_list_size \
 					test_ft_list_sort \
+					test_ft_atoi_base \
 					test_list_display \
-					test_list_tools
+					test_list_tools \
 
 SRC_DIR					=	srcs/
 SRC_MANDATORY_SUBDIR	=	mandatory/
@@ -49,7 +50,7 @@ TEST_MANDATORY_SUBDIR	=	mandatory/
 TEST_FILES_MANDATORY	=	$(addprefix $(TEST_DIR)$(TEST_MANDATORY_SUBDIR), $(addsuffix .c, test_mandatory_main $(TEST_SRC)))
 TEST_BONUS_SUBDIR		=	_bonus/
 TEST_FILES_BONUS		=	$(addprefix $(TEST_DIR)$(TEST_MANDATORY_SUBDIR), $(addsuffix .c, $(TEST_SRC))) \
-							$(addprefix $(TEST_DIR)$(TEST_BONUS_SUBDIR), $(addsuffix .c, main_bonus $(TEST_SRC_BONUS)))
+							$(addprefix $(TEST_DIR)$(TEST_BONUS_SUBDIR), $(addsuffix .c, test_bonus_main $(TEST_SRC_BONUS)))
 
 all: ${NAME}
 
