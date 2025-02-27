@@ -46,7 +46,7 @@ OBJ_BONUS				=	$(patsubst $(SRC_DIR)%.s, $(OBJ_DIR)%.o, $(ASM_FILES_BONUS))
 
 TEST_DIR				=	tests/
 TEST_MANDATORY_SUBDIR	=	mandatory/
-TEST_FILES_MANDATORY	=	$(addprefix $(TEST_DIR)$(TEST_MANDATORY_SUBDIR), $(addsuffix .c, main $(TEST_SRC)))
+TEST_FILES_MANDATORY	=	$(addprefix $(TEST_DIR)$(TEST_MANDATORY_SUBDIR), $(addsuffix .c, test_mandatory_main $(TEST_SRC)))
 TEST_BONUS_SUBDIR		=	_bonus/
 TEST_FILES_BONUS		=	$(addprefix $(TEST_DIR)$(TEST_MANDATORY_SUBDIR), $(addsuffix .c, $(TEST_SRC))) \
 							$(addprefix $(TEST_DIR)$(TEST_BONUS_SUBDIR), $(addsuffix .c, main_bonus $(TEST_SRC_BONUS)))

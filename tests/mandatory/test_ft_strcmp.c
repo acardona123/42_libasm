@@ -2,7 +2,7 @@
 
 static int cmp_strcmp_ftstrcmp(const char *str1, const char *str2);
 
-void test_strcmp()
+int test_strcmp()
 {
 	int error_cpt = 0;
 
@@ -16,6 +16,7 @@ void test_strcmp()
 	printf("\nResults: %d error(s)\n", error_cpt);
 
 	printf("--- End ---\n\n\n");
+	return error_cpt != 0;
 }
 
 static int cmp_strcmp_ftstrcmp(const char *str1, const char *str2)

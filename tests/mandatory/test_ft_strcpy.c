@@ -3,7 +3,7 @@
 static int	cmp_strcpy_ftstrcpy(const char *src);
 static int test_strcpy_overflow();
 
-void test_strcpy()
+int test_strcpy()
 {
 	int error_cpt = 0;
 
@@ -16,6 +16,7 @@ void test_strcpy()
 	printf("\nResults: %d error(s)\n", error_cpt);
 
 	printf("--- End ---\n\n\n");
+	return error_cpt != 0;
 }
 
 static int cmp_strcpy_ftstrcpy(const char *src)

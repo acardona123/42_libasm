@@ -5,7 +5,7 @@ static int	_test_strdup_empty_str();
 static int	_test_random_str(int number_of_tests);
 
 
-void test_strdup()
+int test_strdup()
 {
 	int	number_of_random_str_tested = 100;
 	int	error_cpt;
@@ -18,6 +18,7 @@ void test_strdup()
 
 	printf("\nResults: %d error(s)\n", error_cpt);
 	printf("--- End ---\n\n\n");
+	return error_cpt != 0;
 }
 
 static int	_test_strdup_empty_str()

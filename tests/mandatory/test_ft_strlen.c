@@ -3,7 +3,7 @@
 
 static int cmp_strlen_ftstrlen(const char *str);
 
-void test_strlen()
+int test_strlen()
 {
 	int error_cpt = 0;
 
@@ -15,8 +15,8 @@ void test_strlen()
 	error_cpt += cmp_strlen_ftstrlen("bgjeogijegivj;kvmdiorgergeggfgfdgt5afavcvx");
 
 	printf("\nResults: %d error(s)\n", error_cpt);
-
 	printf("--- End ---\n\n\n");
+	return error_cpt != 0;
 }
 
 static int cmp_strlen_ftstrlen(const char *str)

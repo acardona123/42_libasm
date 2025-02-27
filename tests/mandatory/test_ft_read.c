@@ -4,8 +4,13 @@ static int	_test_read_stdin();
 static int	_test_read_valid_file();
 static int	_test_read_write_only_file();
 
+int test_read_automatic()
+{
+	return test_read(0);
+}
 
-void test_read(int test_std_in)
+
+int test_read(int test_std_in)
 {
 	int	error_cpt;
 
@@ -29,6 +34,7 @@ void test_read(int test_std_in)
 	
 	printf("\nResults: %d error(s)\n", error_cpt);
 	printf("--- End ---\n\n\n");
+	return error_cpt != 0;
 }
 
 static int	_test_read_stdin()

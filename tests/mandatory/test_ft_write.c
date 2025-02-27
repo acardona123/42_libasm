@@ -3,7 +3,7 @@
 
 static int cmp_file_content(const char *file_name, const char *str_ref);
 
-void test_write()
+int test_write()
 {
 	int 	fd;
 	char	file_name[] = "test_to_dell.txt";
@@ -77,6 +77,7 @@ void test_write()
 
 	printf("\nResults: %d error(s)\n", error_cpt);
 	printf("--- End ---\n\n\n");
+	return error_cpt != 0;
 }
 
 static int cmp_file_content(const char *file_name, const char *str_ref)
