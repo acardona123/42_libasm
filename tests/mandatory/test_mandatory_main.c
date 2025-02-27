@@ -4,7 +4,6 @@ typedef int (*test_function)( void );
 
 int main()
 {
-
 	printf("===============================================\n");
 	printf("        LIBASM MANDATOY FUNCTIONS TEST         \n");
 	printf("===============================================\n\n");
