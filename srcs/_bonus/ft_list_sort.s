@@ -308,95 +308,92 @@ _pop_src_first_after_dst:
 		ret
 
 
-/*
-
-========================================================================================
-								Similar c code
-========================================================================================
+; ========================================================================================
+;								Similar c code
+; ========================================================================================
 
 
-void ft_list_sort(t_list **begin_list, int (*cmp)())
-{
-	_ft_list_sort_recursive(begin_list, ft_list_size(*begin_list), cmp);
-}
+; void ft_list_sort(t_list **begin_list, int (*cmp)())
+; {
+; 	_ft_list_sort_recursive(begin_list, ft_list_size(*begin_list), cmp);
+; }
 
 
-void _ft_list_sort_recursive(t_list **begin_list, int list_size, int (*cmp)())
-{
-	t_list	*head_left;
-	t_list	*head_right;
+; void _ft_list_sort_recursive(t_list **begin_list, int list_size, int (*cmp)())
+; {
+; 	t_list	*head_left;
+; 	t_list	*head_right;
 
-	if ( !begin_list || list_size <= 1)
-		return;
-	_split_list(*begin_list, list_size, &head_left, &head_right);
-	_ft_list_sort_recursive(&head_left, list_size / 2, cmp);
-	_ft_list_sort_recursive(&head_right, list_size - list_size / 2, cmp);
-	*begin_list = _merge_lists(head_left, head_right, cmp);
-}
+; 	if ( !begin_list || list_size <= 1)
+; 		return;
+; 	_split_list(*begin_list, list_size, &head_left, &head_right);
+; 	_ft_list_sort_recursive(&head_left, list_size / 2, cmp);
+; 	_ft_list_sort_recursive(&head_right, list_size - list_size / 2, cmp);
+; 	*begin_list = _merge_lists(head_left, head_right, cmp);
+; }
 
-// ==== split list ====
-
-
-static	t_list* _get_middle_element(t_list *begin_list, int list_size);
-
-void _split_list(t_list *begin_list, int list_size, t_list	**head_left, t_list	**head_right)
-{
-	t_list *middle_elem;
-
-	middle_elem = _get_middle_element(begin_list, list_size);
-	*head_left = begin_list;
-	*head_right = middle_elem->next;
-	middle_elem->next = 0;
-}
-
-t_list* _get_middle_element(t_list *begin_list, int list_size)
-{
-	int 	id_middle_lst;
-	t_list*	elem;
-
-	id_middle_lst = list_size / 2 - 1;
-
-	elem = begin_list;
-	for (int i = 0; i < id_middle_lst; ++i)
-		elem = elem->next;
-	return elem;
-}
+; // ==== split list ====
 
 
-// ==== merge elem ====
+; static	t_list* _get_middle_element(t_list *begin_list, int list_size);
+
+; void _split_list(t_list *begin_list, int list_size, t_list	**head_left, t_list	**head_right)
+; {
+; 	t_list *middle_elem;
+
+; 	middle_elem = _get_middle_element(begin_list, list_size);
+; 	*head_left = begin_list;
+; 	*head_right = middle_elem->next;
+; 	middle_elem->next = 0;
+; }
+
+; t_list* _get_middle_element(t_list *begin_list, int list_size)
+; {
+; 	int 	id_middle_lst;
+; 	t_list*	elem;
+
+; 	id_middle_lst = list_size / 2 - 1;
+
+; 	elem = begin_list;
+; 	for (int i = 0; i < id_middle_lst; ++i)
+; 		elem = elem->next;
+; 	return elem;
+; }
 
 
-void	_pop_src_first_after_dst(t_list **last_dest, t_list **head_src)
-{
-	if (*last_dest)
-		(*last_dest)->next = *head_src;
-	*last_dest = *head_src;
-	*head_src = (*head_src)->next;
-	(*last_dest)->next = NULL;
-}
+; // ==== merge elem ====
 
-void	_merge_one_elem(t_list **sorted_list_last, t_list **head_left, t_list **head_right, int (*cmp)())
-{
-	if (!*head_left)
-		_pop_src_first_after_dst(sorted_list_last, head_right);
-	else if (!*head_right)
-		_pop_src_first_after_dst(sorted_list_last, head_left);
-	else if (cmp((*head_left)->data, (*head_right)->data) < 0)
-		_pop_src_first_after_dst(sorted_list_last, head_left);
-	else
-		_pop_src_first_after_dst(sorted_list_last, head_right);
-}
 
-t_list *_merge_lists(t_list *head_left, t_list *head_right, int (*cmp)())
-{
-	t_list *sorted_list_head;
-	t_list	*sorted_last;
+; void	_pop_src_first_after_dst(t_list **last_dest, t_list **head_src)
+; {
+; 	if (*last_dest)
+; 		(*last_dest)->next = *head_src;
+; 	*last_dest = *head_src;
+; 	*head_src = (*head_src)->next;
+; 	(*last_dest)->next = NULL;
+; }
 
-	sorted_list_head = NULL;
-	_merge_one_elem(&sorted_list_head, &head_left, &head_right, cmp);
-	sorted_last = sorted_list_head;
-	while (head_left || head_right)
-		_merge_one_elem(&sorted_last, &head_left, &head_right, cmp);
-	return sorted_list_head;
-}
-*/
+; void	_merge_one_elem(t_list **sorted_list_last, t_list **head_left, t_list **head_right, int (*cmp)())
+; {
+; 	if (!*head_left)
+; 		_pop_src_first_after_dst(sorted_list_last, head_right);
+; 	else if (!*head_right)
+; 		_pop_src_first_after_dst(sorted_list_last, head_left);
+; 	else if (cmp((*head_left)->data, (*head_right)->data) < 0)
+; 		_pop_src_first_after_dst(sorted_list_last, head_left);
+; 	else
+; 		_pop_src_first_after_dst(sorted_list_last, head_right);
+; }
+
+; t_list *_merge_lists(t_list *head_left, t_list *head_right, int (*cmp)())
+; {
+; 	t_list *sorted_list_head;
+; 	t_list	*sorted_last;
+
+; 	sorted_list_head = NULL;
+; 	_merge_one_elem(&sorted_list_head, &head_left, &head_right, cmp);
+; 	sorted_last = sorted_list_head;
+; 	while (head_left || head_right)
+; 		_merge_one_elem(&sorted_last, &head_left, &head_right, cmp);
+; 	return sorted_list_head;
+; }
