@@ -5,7 +5,7 @@ static int _test_empty_list( int print);
 
 void test_list_push_front()
 {
-	printf("=== Tests of ft_list_push_front ===\n");
+	printf("=== Tests of ft_list_push_front ===\n\n");
 
 	int error_cpt = 0;
 
@@ -15,7 +15,6 @@ void test_list_push_front()
 		printf("KO\n");
 		++error_cpt;
 		_test_preexisting_list(1);
-
 	}
 	else
 		printf("ok\n");
@@ -32,7 +31,7 @@ void test_list_push_front()
 
 	printf("\nResults: %d error(s)\n", error_cpt);
 
-	printf("--- End ---\n\n");
+	printf("--- End ---\n\n\n");
 }
 
 static int _test_preexisting_list( int print_details)

@@ -12,7 +12,7 @@ void test_strcpy()
 {
 	int error_cpt = 0;
 
-	printf("=== Tests of ft_strcpy ===\n");
+	printf("=== Tests of ft_strcpy ===\n\n");
 	error_cpt += cmp_strcpy_ftstrcpy("");
 	error_cpt += cmp_strcpy_ftstrcpy("000");
 	error_cpt += cmp_strcpy_ftstrcpy("000\ttotoooooooooooooooooooo");
@@ -20,7 +20,7 @@ void test_strcpy()
 
 	printf("\nResults: %d error(s)\n", error_cpt);
 
-	printf("--- End ---\n\n");
+	printf("--- End ---\n\n\n");
 }
 
 static int cmp_strcpy_ftstrcpy(const char *src)

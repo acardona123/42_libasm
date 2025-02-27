@@ -19,7 +19,7 @@ void test_write()
 	int		my_errno;
 	int 	error_cpt;
 
-	printf("=== Tests of ft_write ===\n");
+	printf("=== Tests of ft_write ===\n\n");
 
 	error_cpt = 0;
 
@@ -81,7 +81,7 @@ void test_write()
 	}
 
 	printf("\nResults: %d error(s)\n", error_cpt);
-	printf("--- End ---\n\n");
+	printf("--- End ---\n\n\n");
 }
 
 static int cmp_file_content(const char *file_name, const char *str_ref)

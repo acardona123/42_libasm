@@ -11,7 +11,7 @@ void test_strcmp()
 {
 	int error_cpt = 0;
 
-	printf("=== Tests of ft_strcmp ===\n");
+	printf("=== Tests of ft_strcmp ===\n\n");
 	error_cpt += cmp_strcmp_ftstrcmp("", "");
 	error_cpt += cmp_strcmp_ftstrcmp("000", "001");
 	error_cpt += cmp_strcmp_ftstrcmp("123", "122");
@@ -20,7 +20,7 @@ void test_strcmp()
 
 	printf("\nResults: %d error(s)\n", error_cpt);
 
-	printf("--- End ---\n\n");
+	printf("--- End ---\n\n\n");
 }
 
 static int cmp_strcmp_ftstrcmp(const char *str1, const char *str2)

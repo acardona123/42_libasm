@@ -2,7 +2,7 @@
 
 void test_list_size()
 {
-	printf("=== Tests of ft_list_size ===\n");
+	printf("=== Tests of ft_list_size ===\n\n");
 	int error_cpt = 0;
 
 	//build list
@@ -37,5 +37,5 @@ void test_list_size()
 	error_cpt += len !=  expected_len;
 
 	printf("\nResults: %d error(s)\n", error_cpt);
-	printf("--- End ---\n\n");
+	printf("--- End ---\n\n\n");
 }

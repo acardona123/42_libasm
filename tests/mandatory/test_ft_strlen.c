@@ -11,7 +11,7 @@ void test_strlen()
 {
 	int error_cpt = 0;
 
-	printf("=== Tests of ft_strlen ===\n");
+	printf("=== Tests of ft_strlen ===\n\n");
 	error_cpt += cmp_strlen_ftstrlen("");
 	error_cpt += cmp_strlen_ftstrlen("123456789");
 	error_cpt += cmp_strlen_ftstrlen("with a tab \t ...");
@@ -20,7 +20,7 @@ void test_strlen()
 
 	printf("\nResults: %d error(s)\n", error_cpt);
 
-	printf("--- End ---\n\n");
+	printf("--- End ---\n\n\n");
 }
 
 static int cmp_strlen_ftstrlen(const char *str)

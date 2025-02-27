@@ -7,7 +7,7 @@
 
 void test_strdup()
 {
-	printf("=== Tests of ft_strdup ===\n");
+	printf("=== Tests of ft_strdup ===\n\n");
 
 	char *dst;
 	char src[1204] = "abc";
@@ -17,5 +17,5 @@ void test_strdup()
 	printf("dst = {%s}\n", dst);
 	// free(dst);//not commented to check valgrind
 
-	printf("--- End ---\n\n");
+	printf("--- End ---\n\n\n");
 }

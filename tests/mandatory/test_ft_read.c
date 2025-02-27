@@ -19,7 +19,7 @@ void test_read(int test_std_in)
 
 	int	error_cpt = 0;
 
-	printf("=== Tests of ft_read ===\n");
+	printf("=== Tests of ft_read ===\n\n");
 
 	if (test_std_in)
 	{
@@ -93,5 +93,5 @@ void test_read(int test_std_in)
 	}
 
 	printf("\nResults: %d error(s)\n", error_cpt);
-	printf("--- End ---\n\n");
+	printf("--- End ---\n\n\n");
 }
