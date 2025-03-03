@@ -5,8 +5,8 @@ static	int _test_random_non_empty_lists(int number_of_tests, int list_len_max);
 
 int	test_list_sort()
 {
-	int	number_of_tests = 2;
-	int	list_len_max	= 5;
+	int	number_of_tests = 50;
+	int	list_len_max	= 100;
 	int	error_cpt;
 
 	printf("=== Tests of ft_list_sort ===\n\n");
