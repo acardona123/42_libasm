@@ -1,6 +1,6 @@
 section .data
-	check_base_forbidden_char db "+- \f\n\r\t\v"
-	whitespace_char db " \f\n\r\t\v"
+	check_base_forbidden_char db "+- ",9, 10, 11, 12, 13, 0		;"+- \f\n\r\t\v"
+	whitespace_char db " ", 9, 10, 11, 12, 13, 0		;" \f\n\r\t\v"
 
 section .bss
 	ascii_char	resb 128
@@ -13,6 +13,8 @@ section .text
 	global trim_whitespaces
 	global set_sign
 	global get_absolute_value
+
+	extern to_dell_disp ;;=============================================== 
 
 
 ft_atoi_base:
@@ -33,8 +35,10 @@ ft_atoi_base:
 
 	.atoi_check_base_validity:
 		mov		rdi, r13
-		;stack alignment: ok
+
+		sub		rsp, 8		;stack alignment
 		call	check_base
+		add		rsp, 8
 		cmp		rax, 0
 		jne		.atoi_base_error_return
 	.atoi_trim_whitespaces_in_str:
@@ -72,11 +76,13 @@ check_base:
 	; push rbp
 	; mov rbp, rsp
 	.init_present_char:
-		push rdi	;save base
-		sub rsp, 8
-		call put_base_forbidden_char_in_ascii
-		add rsp, 8
-		pop rdi
+		push	rdi	;save base
+		sub		rsp, 8
+		mov		rdi, 0
+		call	reset_ascii
+		call	put_base_forbidden_char_in_ascii
+		add		rsp, 8
+		pop		rdi
 	.check_duplicates_or_forbidden:
 		lea rdx, [rel ascii_char]
 		xor rcx, rcx	;init while loop index
@@ -260,7 +266,7 @@ set_base_chars_values:
 		movzx	rsi, byte [rdi + 1 * rcx]	;get base[i]
 		cmp		rsi, 0
 		je		.set_base_chars_values_ret
-		mov		[rdx + rsi], rcx			;ascii_char[base[i]] = i
+		mov		byte [rdx + rsi], cl			;ascii_char[base[i]] = i
 		inc		rcx
 		jmp		.set_base_chars_values_loop
 	.set_base_chars_values_ret:
