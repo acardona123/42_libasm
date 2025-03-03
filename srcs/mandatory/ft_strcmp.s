@@ -4,10 +4,10 @@ global ft_strcmp
 
 ft_strcmp:
 	;prologue
-	push rbp
-	mov rbp, rsp
+	push	rbp
+	mov		rbp, rsp
 	;code
-	xor rax, rax; used as an index i
+	xor		rax, rax; used as an index i
 
 .cmp_char:
 	movzx	r8, byte [rsi + rax]; s1[i] saved in reg for cmp 

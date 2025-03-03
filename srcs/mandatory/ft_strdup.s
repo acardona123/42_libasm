@@ -11,7 +11,7 @@ section .text
 ft_strdup:
 	push rbp
 	mov rbp, rsp
-	mov qword [rel str_src], rdi;save the src that could be update by strlen or malloc
+	mov qword [rel str_src], rdi ;save the src that could be update by strlen or malloc
 .getLen:
 	call qword [rel ft_strlen wrt ..got]
 .allocate_mem:
@@ -19,8 +19,8 @@ ft_strdup:
 	mov rdi, rax
 	;checking stack alignment:
 		;after ft_strdup call the stack was 16 - 8 bytes aligned (return pointer pushed to the stack)
-		;after push rpb we are 8-8o aligned which is 16o aligned
-		;=> alignement ok
+		;after push rpb we are 8-8 bytes aligned which is 16o aligned
+		;=> alignment ok
 	call qword [rel malloc wrt ..got]
 	cmp rax, byte 0
 	je .return

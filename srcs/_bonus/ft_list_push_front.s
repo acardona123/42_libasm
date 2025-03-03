@@ -12,7 +12,7 @@ ft_list_push_front:
 
 ;create list elem
 	;save params that will be modified by malloc in caller-saved registers (). 3 options to do so:
-	; - knowing wich registers are gonna impaceted by malloc and therefore stroring the data in another one, whichever it is.
+	; - knowing which registers are gonna impacted by malloc and therefore saving the data in another one, whichever it is.
 	;	-> not a good idea as it is dependent to the malloc implementation
 	; - saving the data into the stack
 	;   ->easily understood and can be done for as many registers as necessary. But relatively slow compare to saving them in registers
@@ -40,4 +40,3 @@ ft_list_push_front:
 	; epilogue
 	pop rbp;
 	ret;
-

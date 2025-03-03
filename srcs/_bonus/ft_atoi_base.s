@@ -12,9 +12,9 @@ ft_atoi_base:
 	push rbp
 	mov rbp, rsp
 
-	push	r12		;callee saved reg
-	push	r13		;callee saved reg
-	push	r14		;callee saved reg
+	push	r12			;callee saved reg
+	push	r13			;callee saved reg
+	push	r14			;callee saved reg
 	mov		r12, rdi	;store str
 	mov		r13, rsi	;store base
 

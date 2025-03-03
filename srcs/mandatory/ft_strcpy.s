@@ -14,7 +14,7 @@ ft_strcpy:
 	mov		byte [rdi + rax], r10b;  cmp s1[i] and s2[i]
 	; cmp		r10b, 0; else test if end of string reached
 	; je		.return; if so then .return
-	test	r10b, r10b;more optimized version the cmp 0 because we only want to know if they are different, not >= or <=
+	test	r10b, r10b ;more optimized version the cmp 0 because we only want to know if they are different, not >= or <=
 	jz		.return
 	inc		rax; inc i
 	jmp		.cpy_char
