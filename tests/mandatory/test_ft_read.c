@@ -26,7 +26,7 @@ int test_read(int test_std_in)
 
 	printf("=== Tests of ft_read ===\n\n");
 
-	error_cpt = 1;
+	error_cpt = 0;
 	if (test_std_in)
 		error_cpt += _test_read_stdin();
 	error_cpt += _test_read_valid_file();
