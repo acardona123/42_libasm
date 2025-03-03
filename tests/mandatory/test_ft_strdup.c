@@ -72,7 +72,7 @@ static void	_generate_random_str(char *dst);
 
 static int _test_one_random_str()
 {
-	char	str_ref[1024];
+	char	str_ref[1024] = {};
 	char	*str_dup;
 	int		error;
 
