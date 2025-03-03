@@ -186,6 +186,6 @@ static int	_cmp_read_results(s_read_results expected, s_read_results obtained)
 		}
 		return 1;
 	}
-	printf("==> ok\n");
+	printf("==> OK\n");
 	return 0;
 }

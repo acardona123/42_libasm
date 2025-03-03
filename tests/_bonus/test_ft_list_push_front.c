@@ -17,7 +17,7 @@ int test_list_push_front()
 		_test_preexisting_list(1);
 	}
 	else
-		printf("ok\n");
+		printf("OK\n");
 
 	printf("- Empty list: ");
 	if (_test_empty_list(0))
@@ -27,7 +27,7 @@ int test_list_push_front()
 		_test_empty_list(1);
 	}
 	else
-		printf("ok\n");
+		printf("OK\n");
 
 		printf("\n-----------\nRESULTS: ");
 	if (error_cpt)

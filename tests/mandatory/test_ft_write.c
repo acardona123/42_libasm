@@ -48,7 +48,7 @@ int test_write()
 			++error_cpt;
 		}
 		else if (!cmp_file_content(file_name, str))
-			printf("ok\n");
+			printf("OK\n");
 
 		printf("\nTest on RONLY file:\n");
 		fd = open(file_name, O_RDONLY);
@@ -68,7 +68,7 @@ int test_write()
 		else
 		{
 			if (!cmp_file_content(file_name, str))
-				printf("ok\n");
+				printf("OK\n");
 			else
 				++error_cpt;
 		}

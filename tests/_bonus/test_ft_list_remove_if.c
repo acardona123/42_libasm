@@ -29,7 +29,7 @@ int test_list_remove_if()
 		printf("KO\n");
 		error_cpt += _test_remove_first_elem(1);
 	} else {
-		printf("ok\n");
+		printf("OK\n");
 	}
 
 	printf("- Test delete middle element:\n");
@@ -38,7 +38,7 @@ int test_list_remove_if()
 		printf("KO\n");
 		error_cpt += _test_remove_middle_elem(1);
 	} else {
-		printf("ok\n");
+		printf("OK\n");
 	}	
 
 		printf("\n-----------\nRESULTS: ");

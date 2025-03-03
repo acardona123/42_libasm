@@ -37,7 +37,7 @@ static int cmp_strcpy_ftstrcpy(const char *src)
 	rtn_ok = (dst == rtn);
 	cpy_ok = (strcmp(dst, src) == 0);
 
-	printf ("Copy of \"%s\": rtn %s and cpy %s\n", src, rtn_ok ? "ok":"KO", cpy_ok ? "ok":"KO");
+	printf ("Copy of \"%s\": rtn %s and cpy %s\n", src, rtn_ok ? "OK":"KO", cpy_ok ? "OK":"KO");
 
 	free(dst);
 	return !rtn_ok || !cpy_ok;
@@ -62,6 +62,6 @@ static int test_strcpy_overflow()
 		printf(" Error, probably copy more than 1 byte at a time\n");
 		return 1;
 	}
-	printf(" ok\n");
+	printf(" OK\n");
 	return 0;
 }

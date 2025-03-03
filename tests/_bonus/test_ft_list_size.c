@@ -23,17 +23,17 @@ int test_list_size()
 
 	len = ft_list_size(&first);
 	expected_len = 2;
-	printf("- len : %d vs %d -> %s\n", len, expected_len, len ==  expected_len ? "ok" : "KO");
+	printf("- len : %d vs %d -> %s\n", len, expected_len, len ==  expected_len ? "OK" : "KO");
 	error_cpt += len !=  expected_len;
 
 	len = ft_list_size(&second);
 	expected_len = 1;
-	printf("-len : %d vs %d -> %s\n", len, expected_len, len ==  expected_len ? "ok" : "KO");
+	printf("-len : %d vs %d -> %s\n", len, expected_len, len ==  expected_len ? "OK" : "KO");
 	error_cpt += len !=  expected_len;
 
 	len = ft_list_size((t_list*) NULL);
 	expected_len = 0;
-	printf("-len : %d vs %d -> %s\n", len, expected_len, len ==  expected_len ? "ok" : "KO");
+	printf("-len : %d vs %d -> %s\n", len, expected_len, len ==  expected_len ? "OK" : "KO");
 	error_cpt += len !=  expected_len;
 
 	printf("\n-----------\nRESULTS: ");
