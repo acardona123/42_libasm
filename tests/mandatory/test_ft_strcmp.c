@@ -23,6 +23,13 @@ int test_strcmp()
 	return error_cpt != 0;
 }
 
+static int	_get_sign(int c)
+{
+	if (c > 0)
+		return 1;
+	return -1;
+}
+
 static int cmp_strcmp_ftstrcmp(const char *str1, const char *str2)
 {
 	int	rtn_ref;
@@ -31,5 +38,5 @@ static int cmp_strcmp_ftstrcmp(const char *str1, const char *str2)
 	rtn_ref = strcmp(str1, str2);
 	rtn_tested = ft_strcmp(str1, str2);
 	printf ("%d <> %d for \"%s\" vs \"%s\"\n", rtn_ref, rtn_tested, str1, str2);
-	return rtn_ref != rtn_tested;
+	return _get_sign(rtn_ref) != _get_sign(rtn_tested);
 }
