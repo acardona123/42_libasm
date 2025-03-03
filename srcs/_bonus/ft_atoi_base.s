@@ -6,16 +6,7 @@ section .bss
 	ascii_char	resb 128
 
 section .text
-
 	global ft_atoi_base
-
-	global check_base
-	global trim_whitespaces
-	global set_sign
-	global get_absolute_value
-
-	extern to_dell_disp ;;=============================================== 
-
 
 ft_atoi_base:
 	push rbp
