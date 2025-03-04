@@ -1,7 +1,7 @@
 #include "test_bonus.h"
 
 
-char	log_file_name[100] = "test_mandatory_log.txt";
+char	log_file_name[128];
 int		log_file_fd = -1;
 
 void	logged_printf(bool printf_console, const char *format, ...)
@@ -22,9 +22,14 @@ void	logged_printf(bool printf_console, const char *format, ...)
 	}
 }
 
-void	open_log_file()
+void	open_log_file(char *new_log_file_name)
 {
-	log_file_fd = open(log_file_name, O_CREAT | O_RDWR, 0666);
+	if (new_log_file_name)
+	{
+		strncpy(log_file_name, new_log_file_name, 127);
+		log_file_name [127] = 0;
+		log_file_fd = open(log_file_name, O_CREAT | O_RDWR, 0666);
+	}
 	if (log_file_fd == -1)
 		printf("WARNING:\nFAIL TO OPEN THE LOG FILE\n\n");
 }

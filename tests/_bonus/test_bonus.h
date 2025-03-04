@@ -12,9 +12,9 @@
 #include <stdarg.h>
 
 //logs
-extern char	log_file_name[100];
+extern char	log_file_name[128];
 extern int	log_file_fd;
-void		open_log_file();
+void		open_log_file(char *new_log_file_name);
 void		close_log_file();
 void		logged_printf(bool printf_console, const char *format, ...);
 
