@@ -43,7 +43,7 @@ int test_read(int test_std_in)
 
 static int	_test_read_stdin()
 {
-	char	read_buff[1024];
+	char	read_buff[1024] = {};
 	int 	my_res;
 	int		my_errno;
 
