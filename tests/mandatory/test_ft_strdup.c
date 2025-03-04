@@ -10,18 +10,18 @@ int test_strdup()
 	int	number_of_random_str_tested = 100;
 	int	error_cpt;
 
-	printf("=== Tests of ft_strdup ===\n\n");
+	logged_printf(true, "=== Tests of ft_strdup ===\n\n");
 
 	error_cpt = 0;
 	error_cpt += _test_strdup_empty_str();
 	error_cpt += _test_random_str(number_of_random_str_tested);
 
-		printf("\n-----------\nRESULTS: ");
+		logged_printf(true, "\n-----------\nRESULTS: ");
 	if (error_cpt)
-		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
 	else
-		printf("Success\n");
-	printf("--- End ---\n");
+		logged_printf(true, "Success\n");
+	logged_printf(true, "--- End ---\n");
 	return error_cpt != 0;
 }
 
@@ -30,22 +30,22 @@ static int	_test_strdup_empty_str()
 	char	empty;
 	char	*dup;
 
-	printf("- Test empty string:\n");
+	logged_printf(true, "- Test empty string:\n");
 	empty = 0;
 	dup = ft_strdup(&empty);
 	if (!dup)
 	{
-		printf("==> Warning (KO?): malloc of size 1 failed ?\n");
+		logged_printf(true, "==> Warning (KO?): malloc of size 1 failed ?\n");
 		return 0;
 	}
 	if (*dup)
 	{
-		printf("==> KO: not empty str\n");
+		logged_printf(true, "==> KO: not empty str\n");
 		free(dup);
 		return 1;
 	}
 	free(dup);
-	printf("==> OK\n");
+	logged_printf(true, "==> OK\n");
 	return 0;
 }
 
@@ -56,14 +56,14 @@ static int _test_random_str(int number_of_tests)
 {
 	int	error;
 
-	printf("- Test on %d random string (size max = 1024):\n", number_of_tests);
+	logged_printf(true, "- Test on %d random string (size max = 1024):\n", number_of_tests);
 	error = 0;
 	for (int i = 0; i < number_of_tests; ++i)
 		error += _test_one_random_str();
 	if (!error)
-		printf("==> OK\n");
+		logged_printf(true, "==> OK\n");
 	else
-		printf("==> KO: %d / %d errors in the multiple random string test\n", error, number_of_tests);
+		logged_printf(true, "==> KO: %d / %d errors in the multiple random string test\n", error, number_of_tests);
 	return error;
 }
 
@@ -81,12 +81,12 @@ static int _test_one_random_str()
 	str_dup = ft_strdup(str_ref);
 	if (!str_dup)
 	{
-		printf(" Warning: malloc (size: %ld) fail during the test of a random string duplication. Single test aborted\n", strlen(str_ref));
+		logged_printf(true, " Warning: malloc (size: %ld) fail during the test of a random string duplication. Single test aborted\n", strlen(str_ref));
 		return 0;
 	}
 	if (strcmp(str_ref, str_dup))
 	{
-		printf(" Test KO:\n  - src: \"%s\"\n  -res: \"%s\"\n", str_ref, str_dup);
+		logged_printf(true, " Test KO:\n  - src: \"%s\"\n  -res: \"%s\"\n", str_ref, str_dup);
 		++error;
 	}
 	free(str_dup);

@@ -38,14 +38,17 @@ OBJ_BONUS				=	$(patsubst $(SRC_DIR)%.s, $(OBJ_DIR)%.o, $(ASM_FILES_BONUS))
 # === TESTS ===
 
 TEST_SRC_MANDATORY	=	\
+						test_mandatory_main \
 						test_ft_read \
 						test_ft_write \
 						test_ft_strcpy \
 						test_ft_strcmp \
 						test_ft_strlen \
 						test_ft_strdup \
+						test_log_management \
 
 TEST_SRC_BONUS		=	\
+						test_bonus_main \
 						test_ft_list_push_front \
 						test_ft_list_remove_if \
 						test_ft_list_size \
@@ -53,6 +56,7 @@ TEST_SRC_BONUS		=	\
 						test_ft_atoi_base \
 						test_list_display \
 						test_list_tools \
+						test_log_management \
 
 TEST_SRC_MANUAL		=	\
 						test_manual_main \
@@ -62,9 +66,8 @@ TEST_SUBDIR_MANDATORY	=	mandatory/
 TEST_SUBDIR_BONUS		=	_bonus/
 TEST_SUBDIR_MANUAL		=	manual/
 
-TEST_FILES_MANDATORY	=	$(addprefix $(TEST_DIR)$(TEST_SUBDIR_MANDATORY),	$(addsuffix .c, test_mandatory_main $(TEST_SRC_MANDATORY)))
-TEST_FILES_BONUS		=	$(addprefix $(TEST_DIR)$(TEST_SUBDIR_MANDATORY),	$(addsuffix .c, $(TEST_SRC_MANDATORY))) \
-							$(addprefix $(TEST_DIR)$(TEST_SUBDIR_BONUS),		$(addsuffix .c, test_bonus_main $(TEST_SRC_BONUS)))
+TEST_FILES_MANDATORY	=	$(addprefix $(TEST_DIR)$(TEST_SUBDIR_MANDATORY),	$(addsuffix .c, $(TEST_SRC_MANDATORY)))
+TEST_FILES_BONUS		=	$(addprefix $(TEST_DIR)$(TEST_SUBDIR_BONUS),		$(addsuffix .c, $(TEST_SRC_BONUS)))
 TEST_FILES_MANUAL		=	$(addprefix $(TEST_DIR)$(TEST_SUBDIR_MANUAL),		$(addsuffix .c, $(TEST_SRC_MANUAL)))
 
 

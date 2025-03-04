@@ -9,18 +9,18 @@ int	test_list_sort()
 	int	list_len_max	= 100;
 	int	error_cpt;
 
-	printf("=== Tests of ft_list_sort ===\n\n");
+	logged_printf(true, "=== Tests of ft_list_sort ===\n\n");
 
 	error_cpt = 0;
 	error_cpt += _test_sort_empty_list();
 	error_cpt += _test_random_non_empty_lists(number_of_tests, list_len_max);
 
-		printf("\n-----------\nRESULTS: ");
+		logged_printf(true, "\n-----------\nRESULTS: ");
 	if (error_cpt)
-		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
 	else
-		printf("Success\n");
-	printf("--- End ---\n");
+		logged_printf(true, "Success\n");
+	logged_printf(true, "--- End ---\n");
 	return error_cpt != 0;
 }
 
@@ -35,15 +35,15 @@ static int	_test_sort_empty_list()
 {
 	t_list *list;
 
-	printf("- Test empty list:\n");
+	logged_printf(true, "- Test empty list:\n");
 	list = NULL;
 	ft_list_sort(&list, int_cmp);
 	if (list)
 	{
-		printf("==> KO: Error while trying to sort an empty list (/!\\ Possible source of leaks)\n");
+		logged_printf(true, "==> KO: Error while trying to sort an empty list (/!\\ Possible source of leaks)\n");
 		return 1;
 	}
-	printf("==> OK\n");
+	logged_printf(true, "==> OK\n");
 	return 0;
 }
 
@@ -56,14 +56,14 @@ static	int _test_random_non_empty_lists(int number_of_tests, int list_len_max)
 {
 	int error;
 
-	printf("- Test on %d random lists (size max = %d):\n", number_of_tests, list_len_max);
+	logged_printf(true, "- Test on %d random lists (size max = %d):\n", number_of_tests, list_len_max);
 	error = 0;
 	for (int i = 0; i < number_of_tests; ++i)
 		error += _test_sorting_one_list_int(1 + rand()%list_len_max);
 	if (!error)
-		printf("==> OK\n");
+		logged_printf(true, "==> OK\n");
 	else
-		printf("==> KO: %d / %d errors in the multiple random lists test\n", error, number_of_tests);
+		logged_printf(true, "==> KO: %d / %d errors in the multiple random lists test\n", error, number_of_tests);
 	return error;
 }
 
@@ -94,7 +94,7 @@ static int	_generate_to_identical_lists_int(t_list **lst1, t_list **lst2, int li
 	if (!*lst1 || !*lst2)
 	{
 		list_free(*lst1);
-		printf("WARNING: malloc fail durring list generation in _test_sorting_one_list_int, test aborted\n");
+		logged_printf(true, "WARNING: malloc fail durring list generation in _test_sorting_one_list_int, test aborted\n");
 		return 1;
 	}
 	return 0;
@@ -114,11 +114,11 @@ static int _check_and_display_error(t_list *list_initial, t_list *list_sorted)
 	error |= check_sorted_list_size(list_sorted, list_size_c(list_initial), error_msg_len);
 	if (error)
 	{
-		printf(" Test KO:\n  src:  ");
+		logged_printf(true, " Test KO:\n  src:  ");
 		test_print_lst_int_silent(list_initial);
-		printf("  res: ");
+		logged_printf(true, "  res: ");
 		test_print_lst_int_silent(list_sorted);
-		printf("  => %s\n  => %s\n", error_msg_sorted, error_msg_len);
+		logged_printf(true, "  => %s\n  => %s\n", error_msg_sorted, error_msg_len);
 	}
 	return error;
 }

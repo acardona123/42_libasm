@@ -7,19 +7,19 @@ int test_strlen()
 {
 	int error_cpt = 0;
 
-	printf("=== Tests of ft_strlen ===\n\n");
+	logged_printf(true, "=== Tests of ft_strlen ===\n\n");
 	error_cpt += cmp_strlen_ftstrlen("");
 	error_cpt += cmp_strlen_ftstrlen("123456789");
 	error_cpt += cmp_strlen_ftstrlen("with a tab \t ...");
 	error_cpt += cmp_strlen_ftstrlen("Loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong");
 	error_cpt += cmp_strlen_ftstrlen("bgjeogijegivj;kvmdiorgergeggfgfdgt5afavcvx");
 
-		printf("\n-----------\nRESULTS: ");
+		logged_printf(true, "\n-----------\nRESULTS: ");
 	if (error_cpt)
-		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
 	else
-		printf("Success\n");
-	printf("--- End ---\n");
+		logged_printf(true, "Success\n");
+	logged_printf(true, "--- End ---\n");
 	return error_cpt != 0;
 }
 

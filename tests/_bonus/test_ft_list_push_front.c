@@ -5,37 +5,37 @@ static int _test_empty_list( int print);
 
 int test_list_push_front()
 {
-	printf("=== Tests of ft_list_push_front ===\n\n");
+	logged_printf(true, "=== Tests of ft_list_push_front ===\n\n");
 
 	int error_cpt = 0;
 
-	printf("- Preexisting list: ");
+	logged_printf(true, "- Preexisting list: ");
 	if (_test_preexisting_list(0))
 	{
-		printf("KO\n");
+		logged_printf(true, "KO\n");
 		++error_cpt;
 		_test_preexisting_list(1);
 	}
 	else
-		printf("OK\n");
+		logged_printf(true, "OK\n");
 
-	printf("- Empty list: ");
+	logged_printf(true, "- Empty list: ");
 	if (_test_empty_list(0))
 	{
-		printf("KO\n");
+		logged_printf(true, "KO\n");
 		++error_cpt;
 		_test_empty_list(1);
 	}
 	else
-		printf("OK\n");
+		logged_printf(true, "OK\n");
 
-		printf("\n-----------\nRESULTS: ");
+		logged_printf(true, "\n-----------\nRESULTS: ");
 	if (error_cpt)
-		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
 	else
-		printf("Success\n");
+		logged_printf(true, "Success\n");
 
-	printf("--- End ---\n");
+	logged_printf(true, "--- End ---\n");
 	return error_cpt != 0;
 }
 
@@ -57,14 +57,14 @@ static int _test_preexisting_list( int print_details)
 
 	if (print_details)
 	{
-		printf("Head addr: %p\n", &head);
+		logged_printf(true, "Head addr: %p\n", &head);
 		test_print_lst(head);
 	}
 	ft_list_push_front(&head, (void*)new_data);
 	rtn = !head || head->data != new_data || head->next != &old_first || head->next->next != old_first.next;
 	if (print_details)
 	{
-		printf("\nShould now start with a new node node which data is %p\n", new_data);
+		logged_printf(true, "\nShould now start with a new node node which data is %p\n", new_data);
 		test_print_lst(head);	
 	}
 	if (head && head->data == new_data)
@@ -84,13 +84,13 @@ static int _test_empty_list( int print_details)
 
 	if (print_details)
 	{
-		printf("Head addr: %p\nNo list", head);
+		logged_printf(true, "Head addr: %p\nNo list", head);
 	}
 	ft_list_push_front(head, (void*)new_data);
 	rtn = (!(*head) || (*head)->data != new_data || (*head)->next != NULL);
 	if (print_details)
 	{
-		printf("\nShould now start with a new node node which data is %p\n", new_data);
+		logged_printf(true, "\nShould now start with a new node node which data is %p\n", new_data);
 		test_print_lst(*head);	
 	}
 	if (*head)

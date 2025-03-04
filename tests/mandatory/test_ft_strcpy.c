@@ -7,19 +7,19 @@ int test_strcpy()
 {
 	int error_cpt = 0;
 
-	printf("=== Tests of ft_strcpy ===\n\n");
+	logged_printf(true, "=== Tests of ft_strcpy ===\n\n");
 	error_cpt += cmp_strcpy_ftstrcpy("");
 	error_cpt += cmp_strcpy_ftstrcpy("000");
 	error_cpt += cmp_strcpy_ftstrcpy("000\ttotoooooooooooooooooooo");
 	error_cpt += test_strcpy_overflow();
 
-		printf("\n-----------\nRESULTS: ");
+		logged_printf(true, "\n-----------\nRESULTS: ");
 	if (error_cpt)
-		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
 	else
-		printf("Success\n");
+		logged_printf(true, "Success\n");
 
-	printf("--- End ---\n");
+	logged_printf(true, "--- End ---\n");
 	return error_cpt != 0;
 }
 
@@ -45,7 +45,7 @@ static int cmp_strcpy_ftstrcpy(const char *src)
 
 static int test_strcpy_overflow()
 {
-	printf("Test copy overflow after dst:");
+	logged_printf(true, "Test copy overflow after dst:");
 
 	char src[] = "totoooooooooooo";
 	char dst[] = "0123456789";
@@ -57,11 +57,11 @@ static int test_strcpy_overflow()
 	ft_strcpy(dst, src);
 	if (strcmp(dst, dst_ref) != 0 || strcmp(dst + 5, dst_ref + 5))
 	{
-		printf("\n expected:\n  dest = {%s}\n  dest_next = {%s}\n", dst_ref, dst_ref + 5);
-		printf(" obtained\n  dest = {%s}\n  dest_next = {%s}\n", dst, dst + 5);
-		printf(" Error, probably copy more than 1 byte at a time\n");
+		logged_printf(true, "\n expected:\n  dest = {%s}\n  dest_next = {%s}\n", dst_ref, dst_ref + 5);
+		logged_printf(true, " obtained\n  dest = {%s}\n  dest_next = {%s}\n", dst, dst + 5);
+		logged_printf(true, " Error, probably copy more than 1 byte at a time\n");
 		return 1;
 	}
-	printf(" OK\n");
+	logged_printf(true, " OK\n");
 	return 0;
 }

@@ -24,7 +24,7 @@ int test_read(int test_std_in)
 	int		my_errno;
 
 
-	printf("=== Tests of ft_read ===\n\n");
+	logged_printf(true, "=== Tests of ft_read ===\n\n");
 
 	error_cpt = 0;
 	if (test_std_in)
@@ -32,12 +32,12 @@ int test_read(int test_std_in)
 	error_cpt += _test_read_valid_file();
 	error_cpt += _test_read_write_only_file();
 	
-	printf("\n-----------\nRESULTS: ");
+	logged_printf(true, "\n-----------\nRESULTS: ");
 	if (error_cpt)
-		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
 	else
-		printf("Success\n");
-	printf("--- End ---\n");
+		logged_printf(true, "Success\n");
+	logged_printf(true, "--- End ---\n");
 	return error_cpt != 0;
 }
 
@@ -47,18 +47,18 @@ static int	_test_read_stdin()
 	int 	my_res;
 	int		my_errno;
 
-	printf("-Manual test on stdin, write anything (less than 1024 char) and check if the printed text is equal to it:\n");
+	logged_printf(true, "-Manual test on stdin, write anything (less than 1024 char) and check if the printed text is equal to it:\n");
 	errno = 0;
 	my_res = ft_read(0, read_buff, 1024);
 	my_errno = errno;
-	printf(" input:\n\"%s\"", read_buff);
-	printf(" - res = %d\n - errno = %d\n", my_res, my_errno);
+	logged_printf(true, " input:\n\"%s\"", read_buff);
+	logged_printf(true, " - res = %d\n - errno = %d\n", my_res, my_errno);
 	if (my_errno)
 	{
-		printf(" => Error (errno not null): %s\n", strerror(my_errno));
+		logged_printf(true, " => Error (errno not null): %s\n", strerror(my_errno));
 		return 1;
 	}
-	printf(" => OK ( /!\\ MANUAL CHECK TO DO BY COMPARING THE VALUES ABOVE )\n");
+	logged_printf(true, " => OK ( /!\\ MANUAL CHECK TO DO BY COMPARING THE VALUES ABOVE )\n");
 	return 0;
 }
 
@@ -82,12 +82,12 @@ int	_test_read_valid_file()
 	s_read_results	expected;
 	s_read_results	obtained;
 
-	printf("- Test on valid non-empty file:\n");
+	logged_printf(true, "- Test on valid non-empty file:\n");
 
 	fd = _create_and_open_file(file_name, content, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("Warning: Test aborted can't create a valid file.\n");
+		logged_printf(true, "Warning: Test aborted can't create a valid file.\n");
 		return 0;
 	}
 
@@ -115,12 +115,12 @@ static int	_test_read_write_only_file()
 	s_read_results	expected;
 	s_read_results	obtained;
 
-	printf("- Test on WRITE_ONLY file:\n");
+	logged_printf(true, "- Test on WRITE_ONLY file:\n");
 
 	fd = _create_and_open_file(file_name, content, O_WRONLY | O_APPEND); //will not be readable
 	if (fd == -1)
 	{
-		printf("Warning: Test aborted can't create a valid file.\n");
+		logged_printf(true, "Warning: Test aborted can't create a valid file.\n");
 		return 0;
 	}
 
@@ -174,18 +174,18 @@ static int	_cmp_read_results(s_read_results expected, s_read_results obtained)
 				|| (obtained.str && expected.str && strcmp(obtained.str, expected.str)))
 			))
 	{
-		printf("==> KO:\n");
-		printf("  - return value:\n     Expected: %d\n     Obtained: %d\n", expected.ret, obtained.ret);
-		printf("  - errno value:\n     Expected: %d\n     Obtained: %d\n", expected.errno_value, obtained.errno_value);
+		logged_printf(true, "==> KO:\n");
+		logged_printf(true, "  - return value:\n     Expected: %d\n     Obtained: %d\n", expected.ret, obtained.ret);
+		logged_printf(true, "  - errno value:\n     Expected: %d\n     Obtained: %d\n", expected.errno_value, obtained.errno_value);
 		if (obtained.ret != expected.ret || obtained.errno_value != expected.errno_value)
-			printf("  - string content: not evaluated\n");
+			logged_printf(true, "  - string content: not evaluated\n");
 		else
 		{
-			printf("  - string content: KO\n");
-			printf("     Expected: \"%s\"\n     Obtained: \"%s\"\n", expected.str, obtained.str);
+			logged_printf(true, "  - string content: KO\n");
+			logged_printf(true, "     Expected: \"%s\"\n     Obtained: \"%s\"\n", expected.str, obtained.str);
 		}
 		return 1;
 	}
-	printf("==> OK\n");
+	logged_printf(true, "==> OK\n");
 	return 0;
 }

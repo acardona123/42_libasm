@@ -15,19 +15,19 @@ int	test_atoi_base()
 {
 	int	error_cpt;
 
-	printf("=== Tests of ft_atoi_base ===\n\n");
+	logged_printf(true, "=== Tests of ft_atoi_base ===\n\n");
 
 	error_cpt = 0;
 	// error_cpt += _test_atoi_base_manual();
 	error_cpt += _test_valid_bases_16_10_8_random_numbers();
 	error_cpt += _test_atoi_invalid_bases();
 
-	printf("-----------\nRESULTS: ");
+	logged_printf(true, "-----------\nRESULTS: ");
 	if (error_cpt)
-		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
 	else
-		printf("Success\n");
-	printf("--- End ---\n");
+		logged_printf(true, "Success\n");
+	logged_printf(true, "--- End ---\n");
 	return error_cpt;
 }
 
@@ -47,9 +47,9 @@ static int _test_atoi_base_manual()
 	int		expected_res = 326387917;
 	int		obtained_res;
 
-	printf("--- Manual test ---\n");
+	logged_printf(true, "--- Manual test ---\n");
 	obtained_res = ft_atoi_base(src, base);
-	printf(" base: \"%s\"\n str: \"%s\"\n expected result: %d\n obtained result: %d\n=> %s\n\n", base, src, expected_res, obtained_res, expected_res == obtained_res ? "OK" : "KO");
+	logged_printf(true, " base: \"%s\"\n str: \"%s\"\n expected result: %d\n obtained result: %d\n=> %s\n\n", base, src, expected_res, obtained_res, expected_res == obtained_res ? "OK" : "KO");
 	return expected_res != obtained_res;
 }
 
@@ -71,7 +71,7 @@ static void	_get_base(char *dst, int base_len)
 {
 	if ((base_len != 16 && base_len != 10 && base_len != 8))
 	{
-		printf("Warning: fail in _get_base, test aborted\n");
+		logged_printf(true, "Warning: fail in _get_base, test aborted\n");
 		*dst = 0;
 		return;
 	}
@@ -91,17 +91,17 @@ static int _test_valid_bases_16_10_8_random_numbers()
 	int	error_cpt;
 	int	i;
 
-	printf(" --- Tests on valid bases and numbers ---\n");
+	logged_printf(true, " --- Tests on valid bases and numbers ---\n");
 	error_cpt = 0;
 	i = 0;
 	while (bases_tested[i])
 		error_cpt += _test_base_multiple_random_numbers(number_of_tests_each_base, bases_tested[i++]);
 
-	printf("Results on valid basis:\n");
+	logged_printf(true, "Results on valid basis:\n");
 	if (error_cpt)
-		printf(" Failure : error(s) in %d base%s among %d base%s tested\n\n", error_cpt, error_cpt > 1 ? "s" : "", i, i >1 ? "s" : "");
+		logged_printf(true, " Failure : error(s) in %d base%s among %d base%s tested\n\n", error_cpt, error_cpt > 1 ? "s" : "", i, i >1 ? "s" : "");
 	else
-		printf(" Success\n\n");
+		logged_printf(true, " Success\n\n");
 	return error_cpt != 0;
 }
 
@@ -113,10 +113,10 @@ static int _test_base_multiple_random_numbers(int number_of_tests, int base_size
 	int		error;
 	char	base[17];
 
-	printf("- Test on %d numbers in base %d:\n", number_of_tests, base_size);
+	logged_printf(true, "- Test on %d numbers in base %d:\n", number_of_tests, base_size);
 	if (base_size != 16 && base_size != 10 && base_size != 8)
 	{
-		printf( "Warning: incompatible base size for autotesting multiple random numbers. The base size must be 16, 10 or 8.\n");
+		logged_printf(true,  "Warning: incompatible base size for autotesting multiple random numbers. The base size must be 16, 10 or 8.\n");
 		return 0;
 	}
 
@@ -130,9 +130,9 @@ static int _test_base_multiple_random_numbers(int number_of_tests, int base_size
 		error += _test_base_one_random_number(base);
 
 	if (!error)
-		printf(" => OK\n");
+		logged_printf(true, " => OK\n");
 	else
-		printf(" => KO: %d / %d errors in the multiple random lists test\n", error, number_of_tests);
+		logged_printf(true, " => KO: %d / %d errors in the multiple random lists test\n", error, number_of_tests);
 	return error != 0;
 }
 
@@ -285,7 +285,7 @@ static int _check_and_display_atoi_base_results(int	expected_num, int atoi_base_
 {
 	if (expected_num == atoi_base_result)
 		return 0;
-	printf("  Test KO:\n   base: base%ld = \"%s\"\n   src:  \"%s\"\n   expected result: %d\n   obtained result: %d\n", strlen(base), base, num_str, expected_num, atoi_base_result);
+	logged_printf(true, "  Test KO:\n   base: base%ld = \"%s\"\n   src:  \"%s\"\n   expected result: %d\n   obtained result: %d\n", strlen(base), base, num_str, expected_num, atoi_base_result);
 
 	return 1;
 }
@@ -309,17 +309,17 @@ static int _test_atoi_invalid_bases()
 {
 	int	error_cpt;
 
-	printf(" --- Tests on invalid bases ---\n");
+	logged_printf(true, " --- Tests on invalid bases ---\n");
 	error_cpt = 0;
 	error_cpt += _test_invalid_base_whitespaces();
 	error_cpt += _test_invalid_base_signs();
 	error_cpt += _test_invalid_base_duplicate_char();
 	error_cpt += _test_invalid_base_too_small();
-	printf("Results on invalid basis:\n");
+	logged_printf(true, "Results on invalid basis:\n");
 	if (error_cpt)
-		printf(" Failure : error(s) in %d invalid base%s\n\n", error_cpt, error_cpt > 1 ? "s" : "");
+		logged_printf(true, " Failure : error(s) in %d invalid base%s\n\n", error_cpt, error_cpt > 1 ? "s" : "");
 	else
-		printf(" Success\n\n");
+		logged_printf(true, " Success\n\n");
 	return error_cpt != 0;
 }
 
@@ -330,7 +330,7 @@ static int	_test_one_invalid_base(char *base, char *description)
 	res = ft_atoi_base("  ", base);
 	if (!res)
 		return 0;
-	printf(" ko:%s%s\n  base: %s\n  result expected: 0\n  result obtained: %d\n", description ? "\ndescription: " : "", description ? description : "", base, res);
+	logged_printf(true, " ko:%s%s\n  base: %s\n  result expected: 0\n  result obtained: %d\n", description ? "\ndescription: " : "", description ? description : "", base, res);
 	return 1;
 }
 
@@ -343,16 +343,16 @@ static int	_test_invalid_base_whitespaces()
 
 	int		error;
 
-	printf("- test of bases with whitespaces:\n");
+	logged_printf(true, "- test of bases with whitespaces:\n");
 	error = 0;
 	for (int i = 0; whitespaces[i]; ++i)
 		error += _test_base_ending_with_whitespace(whitespaces[i]);
 	if (error)
 	{
-		printf(" => KO: whitespace%s not detected/processed properly\n", error > 1 ? "s" : "");
+		logged_printf(true, " => KO: whitespace%s not detected/processed properly\n", error > 1 ? "s" : "");
 		return 1;
 	}
-	printf(" => OK\n");
+	logged_printf(true, " => OK\n");
 	return error != 0;
 }
 
@@ -372,16 +372,16 @@ static int	_test_invalid_base_signs()
 {
 	int		error;
 
-	printf("- test of bases with sign:\n");
+	logged_printf(true, "- test of bases with sign:\n");
 	error = 0;
 	error += _test_base_ending_with_sign('+');
 	error += _test_base_ending_with_sign('-');
 	if (error)
 	{
-		printf(" => KO: sign%s not detected/processed properly\n", error > 1 ? "s" : "");
+		logged_printf(true, " => KO: sign%s not detected/processed properly\n", error > 1 ? "s" : "");
 		return 1;
 	}
-	printf(" => OK\n");
+	logged_printf(true, " => OK\n");
 	return error != 0;
 }
 
@@ -400,10 +400,10 @@ static int	_test_invalid_base_duplicate_char()
 	char	base[] = {'a', 'b', 'c', 'b', 0};
 	int		error;
 
-	printf("- test of bases with duplicated char:\n =>");
+	logged_printf(true, "- test of bases with duplicated char:\n =>");
 	error = _test_one_invalid_base(base, NULL);
 	if (!error)
-		printf(" OK\n");
+		logged_printf(true, " OK\n");
 	return error;
 }
 
@@ -413,10 +413,10 @@ static int	_test_invalid_base_too_small()
 	char	base[4] = {'a', 0};
 	int		error;
 
-	printf("- test of bases too small (size 1):\n =>");
+	logged_printf(true, "- test of bases too small (size 1):\n =>");
 	error = _test_one_invalid_base(base, NULL);
 	if (!error)
-		printf(" OK\n");
+		logged_printf(true, " OK\n");
 	return error;
 }
 

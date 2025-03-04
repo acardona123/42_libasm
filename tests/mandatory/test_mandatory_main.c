@@ -4,9 +4,9 @@ typedef int (*test_function)( void );
 
 int main()
 {
-	printf("===============================================\n");
-	printf("        LIBASM MANDATOY FUNCTIONS TEST         \n");
-	printf("===============================================\n\n");
+	logged_printf(true, "===============================================\n");
+	logged_printf(true, "        LIBASM MANDATOY FUNCTIONS TEST         \n");
+	logged_printf(true, "===============================================\n\n");
 
 	test_function functions_to_test[] = {
 		test_strlen,
@@ -27,11 +27,11 @@ int main()
 		printf ("_______________________________________________\n\n");
 	}
 
-	printf("==== MANDATORY TESTS RESULTS ====\n\n");
+	logged_printf(true, "==== MANDATORY TESTS RESULTS ====\n\n");
 	if (!failed_functions_cpt)
-		printf("Success ! Congratulations !!!\n\n");
+		logged_printf(true, "Success ! Congratulations !!!\n\n");
 	else
-		printf("Failure on %d / %d function%s.\n\n", failed_functions_cpt, fct_index, failed_functions_cpt > 1 ? "s":"");
+		logged_printf(true, "Failure on %d / %d function%s.\n\n", failed_functions_cpt, fct_index, failed_functions_cpt > 1 ? "s":"");
 
 	return 0;
 }

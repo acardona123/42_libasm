@@ -2,7 +2,7 @@
 
 int test_list_size()
 {
-	printf("=== Tests of ft_list_size ===\n\n");
+	logged_printf(true, "=== Tests of ft_list_size ===\n\n");
 	int error_cpt = 0;
 
 	//build list
@@ -23,24 +23,24 @@ int test_list_size()
 
 	len = ft_list_size(&first);
 	expected_len = 2;
-	printf("- len : %d vs %d -> %s\n", len, expected_len, len ==  expected_len ? "OK" : "KO");
+	logged_printf(true, "- len : %d vs %d -> %s\n", len, expected_len, len ==  expected_len ? "OK" : "KO");
 	error_cpt += len !=  expected_len;
 
 	len = ft_list_size(&second);
 	expected_len = 1;
-	printf("- len : %d vs %d -> %s\n", len, expected_len, len ==  expected_len ? "OK" : "KO");
+	logged_printf(true, "- len : %d vs %d -> %s\n", len, expected_len, len ==  expected_len ? "OK" : "KO");
 	error_cpt += len !=  expected_len;
 
 	len = ft_list_size((t_list*) NULL);
 	expected_len = 0;
-	printf("- len : %d vs %d -> %s\n", len, expected_len, len ==  expected_len ? "OK" : "KO");
+	logged_printf(true, "- len : %d vs %d -> %s\n", len, expected_len, len ==  expected_len ? "OK" : "KO");
 	error_cpt += len !=  expected_len;
 
-	printf("\n-----------\nRESULTS: ");
+	logged_printf(true, "\n-----------\nRESULTS: ");
 	if (error_cpt)
-		printf("Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
+		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
 	else
-		printf("Success\n");
-	printf("--- End ---\n");
+		logged_printf(true, "Success\n");
+	logged_printf(true, "--- End ---\n");
 	return error_cpt != 0;
 }

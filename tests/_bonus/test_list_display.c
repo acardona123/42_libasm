@@ -2,36 +2,36 @@
 
 static void _print_lst_elem_ptr(t_list *lst)
 {
-	printf("%p:\n  -data: %p\n  -next: %p\n", lst, lst->data, lst->next);
+	logged_printf(true, "%p:\n  -data: %p\n  -next: %p\n", lst, lst->data, lst->next);
 }
 
 static void _print_lst_elem_str(t_list *lst)
 {
-	printf("%p:\n  -data: \"%s\"\n  -next: %p\n", lst, (char*)lst->data, lst->next);
+	logged_printf(true, "%p:\n  -data: \"%s\"\n  -next: %p\n", lst, (char*)lst->data, lst->next);
 }
 
 static void _print_lst_elem_int(t_list *lst)
 {
-	printf("%p:\n  -data: %d\n  -next: %p\n", lst, *(int *)lst->data, lst->next);
+	logged_printf(true, "%p:\n  -data: %d\n  -next: %p\n", lst, *(int *)lst->data, lst->next);
 }
 
 static void _print_lst_elem_int_silent(t_list *lst)
 {
-	printf("%d", *(int *)lst->data);
+	logged_printf(true, "%d", *(int *)lst->data);
 }
 
 static void _test_print_lst_typed(t_list *lst_head, void (*print_lst_elem)(t_list *lst))
 {
 	t_list *elem;
 
-	printf("--List--\nStart at %p\n", lst_head);
+	logged_printf(true, "--List--\nStart at %p\n", lst_head);
 	elem = lst_head;
 	while (elem)
 	{
 		(*print_lst_elem)(elem);
 		elem = elem->next;
 	}
-	printf("--End list--\n");
+	logged_printf(true, "--End list--\n");
 }
 
 
@@ -39,15 +39,15 @@ static void _test_print_lst_typed_silent(t_list *lst_head, void (*print_lst_elem
 {
 	t_list *elem;
 
-	printf("[");
+	logged_printf(true, "[");
 	elem = lst_head;
 	while (elem)
 	{
 		(*print_lst_elem)(elem);
 		elem = elem->next;
-		printf("%s", elem ? ", " : "");
+		logged_printf(true, "%s", elem ? ", " : "");
 	}
-	printf("]\n");
+	logged_printf(true, "]\n");
 }
 
 void test_print_lst(t_list *lst_head)

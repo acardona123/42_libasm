@@ -16,14 +16,14 @@ t_list *generate_list_int(int size)
 		data = malloc(sizeof(int));
 		if (!data)
 		{
-			printf("WARNING: malloc fail in generate_list_int -> list shorten\n");
+			logged_printf(true, "WARNING: malloc fail in generate_list_int -> list shorten\n");
 			return lst;
 		}
 		*data = rand()%100 - 50;
 		ft_list_push_front(&lst, data);
 		if (old_lst == lst) //test if ft_list_push_front worked, otherwise the malloc inside it failed
 		{
-			printf("WARNING: malloc fail in generate_list_int -> list shorten\n");
+			logged_printf(true, "WARNING: malloc fail in generate_list_int -> list shorten\n");
 			free(data);
 			return lst;
 		}

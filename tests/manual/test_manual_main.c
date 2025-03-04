@@ -5,9 +5,9 @@
 
 int main()
 {
-	printf("===============================================\n");
-	printf("              LIBASM MANUAL TEST               \n");
-	printf("===============================================\n\n");
+	logged_printf(true, "===============================================\n");
+	logged_printf(true, "              LIBASM MANUAL TEST               \n");
+	logged_printf(true, "===============================================\n\n");
 
 	// write your manual tests here
 

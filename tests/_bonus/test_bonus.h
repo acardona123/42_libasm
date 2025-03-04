@@ -7,6 +7,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <stdbool.h>
+#include <fcntl.h>
+#include <stdarg.h>
+
+//logs
+extern char	log_file_name[100];
+extern int	log_file_fd;
+void		open_log_file();
+void		close_log_file();
+void		logged_printf(bool printf_console, const char *format, ...);
+
 
 // test_list_display.c
 void test_print_lst(t_list *lst_head);
