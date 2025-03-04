@@ -10,7 +10,7 @@ ft_strcmp:
 	xor		rax, rax; used as an index i
 
 .cmp_char:
-	movzx	r8, byte [rsi + rax]; s1[i] saved in reg for cmp 
+	movzx	r8, byte [rsi + rax]; s2[i] saved in reg for cmp 
 									; /!\ RBX, RBP, and R12 through R15 are callee-saved so thy must be save dif used
 									; /!\ we are manipulating bytes and not int (4bytes) which is the default size.
 										;So when manipulating the data we need to specify that => use movzx adds the required zeroes to fill the 64bits register
@@ -23,7 +23,7 @@ ft_strcmp:
 
 .return:
 	movzx rax, byte [rdi + rax]; return = s1[i]  /!\ still need to specify that we manipulate one byte
-	sub byte rax, byte r8; return -= s2[i]
+	sub		rax, r8; return -= s2[i]
 	;epilogue
 	pop rbp
 	ret
