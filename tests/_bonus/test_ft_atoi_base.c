@@ -49,7 +49,7 @@ static int _test_atoi_base_manual()
 
 	logged_printf(true, "--- Manual test ---\n");
 	obtained_res = ft_atoi_base(src, base);
-	logged_printf(true, " base: \"%s\"\n str: \"%s\"\n expected result: %d\n obtained result: %d\n=> %s\n\n", base, src, expected_res, obtained_res, expected_res == obtained_res ? "OK" : "KO");
+	logged_printf(true, " base: \"%s\"\n str: \"%s\"\n expected result (manually entered): %d\n obtained result: %d\n=> %s\n\n", base, src, expected_res, obtained_res, expected_res == obtained_res ? "OK" : "KO");
 	return expected_res != obtained_res;
 }
 
@@ -148,7 +148,7 @@ static int	_test_base_one_random_number(char *base)
 	char	num_str[1024] = {};
 	int		atoi_base_result;
 
-	num = rand();
+	num = rand() - RAND_MAX / 2;
 	_base_itoa_with_whitespaces_and_signs(num_str, base, num);
 	atoi_base_result = ft_atoi_base(num_str, base);
 	return _check_and_display_atoi_base_results(num, atoi_base_result, num_str, base);
