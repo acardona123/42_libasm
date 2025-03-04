@@ -16,14 +16,14 @@ extern char	log_file_name[128];
 extern int	log_file_fd;
 void		open_log_file(char *new_log_file_name);
 void		close_log_file();
-void		logged_printf(bool printf_console, const char *format, ...);
+void		logged_printf(bool print_stdout, const char *format, ...);
 
 
 // test_list_display.c
-void test_print_lst(t_list *lst_head);
-void test_print_lst_str(t_list *lst_head);
-void test_print_lst_int(t_list *lst_head);
-void test_print_lst_int_silent(t_list *lst_head);
+void test_print_lst(bool print_stdout, t_list *lst_head);
+void test_print_lst_str(bool print_stdout, t_list *lst_head);
+void test_print_lst_int(bool print_stdout, t_list *lst_head);
+void test_print_lst_int_silent(bool print_stdout, t_list *lst_head);
 
 //test_list_tools.c
 t_list	*generate_list_int(int size);
@@ -31,6 +31,7 @@ t_list	*list_new_elem_int(int data_value);
 t_list	*list_dup_int(t_list *list_src);
 void	list_free(t_list *list_head);
 int		list_size_c(t_list *lst);
+int		test_list_and_display_results(char *test_description, int (*test_function)(bool print_details));
 
 
 int	test_list_push_front();

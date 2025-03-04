@@ -103,3 +103,16 @@ int	list_size_c(t_list *lst)
 	}
 	return i;
 }
+
+int	test_list_and_display_results(char *test_description, int (*test_function)(bool print_details))
+{
+	logged_printf(true, "- %s:\n", test_description);
+	if ((*test_function)(false))
+	{
+		logged_printf(true, "KO\n");
+		(*test_function)(true);
+		return 1;
+	}
+	logged_printf(true, "OK\n");
+	return 0;
+}

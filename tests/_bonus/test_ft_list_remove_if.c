@@ -13,8 +13,8 @@ static void _free_function(void *data)
 }
 
 
-static int _test_remove_middle_elem( int print_details);
-static int _test_remove_first_elem( int print_details);
+static int _test_remove_middle_elem( bool print_details);
+static int _test_remove_first_elem( bool print_details);
 
 
 int test_list_remove_if()
@@ -23,25 +23,10 @@ int test_list_remove_if()
 
 	int error_cpt = 0;
 
-	logged_printf(true, "- Test delete first element:\n");
-	if (_test_remove_first_elem(0))
-	{
-		logged_printf(true, "KO\n");
-		error_cpt += _test_remove_first_elem(1);
-	} else {
-		logged_printf(true, "OK\n");
-	}
+	error_cpt += test_list_and_display_results("Test delete first element", _test_remove_first_elem);
+	error_cpt += test_list_and_display_results("Test delete middle element", _test_remove_middle_elem);
 
-	logged_printf(true, "- Test delete middle element:\n");
-	if (_test_remove_middle_elem(0))
-	{
-		logged_printf(true, "KO\n");
-		error_cpt += _test_remove_middle_elem(1);
-	} else {
-		logged_printf(true, "OK\n");
-	}	
-
-		logged_printf(true, "\n-----------\nRESULTS: ");
+	logged_printf(true, "\n-----------\nRESULTS: ");
 	if (error_cpt)
 		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
 	else
@@ -50,7 +35,7 @@ int test_list_remove_if()
 	return error_cpt != 0;
 }
 
-static int _test_remove_middle_elem( int print_details)
+static int _test_remove_middle_elem(bool print_details)
 {
 	t_list	*head;
 	t_list	first;
@@ -70,22 +55,23 @@ static int _test_remove_middle_elem( int print_details)
 	third.next = NULL;
 
 	if (print_details)
-	{
-		logged_printf(true, "Reference data: \"%s\"\n", data_ref);
-		logged_printf(true, "Before:\n"); 
-		test_print_lst_str(head);
-	}
+		logged_printf(false,  " /!\\ Same test\n");
+	
+	logged_printf(print_details, "Removed if *data = \"%s\"\n", data_ref);
+	logged_printf(print_details, "Before:\n"); 
+	test_print_lst_str(print_details, head);
+	
 	free_called = 0;
 	ft_list_remove_if(&head, data_ref, _cmp, _free_function);
-	if (print_details)
-	{
-		logged_printf(true, "After:\n"); 
-		test_print_lst_str(head);
-	}
+	
+	logged_printf(print_details, "After:\n"); 
+	test_print_lst_str(print_details, head);
+	logged_printf(print_details, "Delete function called: %s\n", free_called != 0 ? "yes" : "no");
+	
 	return (!head || head != &first || head->next != &third || !free_called);
 }
 
-static int _test_remove_first_elem( int print_details)
+static int _test_remove_first_elem(bool print_details)
 {
 	t_list	*head;
 	t_list	first;
@@ -106,17 +92,18 @@ static int _test_remove_first_elem( int print_details)
 	third.next = NULL;
 
 	if (print_details)
-	{
-		logged_printf(true, "Before:\n"); 
-		test_print_lst_str(head);
-	}
+		logged_printf(false,  " /!\\ Same test\n");
+	
+	logged_printf(print_details, "Removed if *data = \"%s\"\n", data_ref);
+	logged_printf(print_details, "Before:\n"); 
+	test_print_lst_str(print_details, head);
+
 	free_called = 0;
 	ft_list_remove_if(&head, data_ref, _cmp, _free_function);
-	if (print_details)
-	{
-		logged_printf(true, "After:\n");
-		test_print_lst_str(head);
-		logged_printf(true, "Delete function called: %s\n", free_called != 0 ? "yes" : "no");
-	}
+	
+	logged_printf(print_details, "After:\n");
+	test_print_lst_str(print_details, head);
+	logged_printf(print_details, "Delete function called: %s\n", free_called != 0 ? "yes" : "no");
+
 	return (!head || head != &second || head->next != &third || !free_called);
 }

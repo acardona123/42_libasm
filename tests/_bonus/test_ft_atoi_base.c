@@ -284,7 +284,10 @@ static char	_get_random_non_digits(char *base)
 static int _check_and_display_atoi_base_results(int	expected_num, int atoi_base_result, char *num_str, char *base)
 {
 	if (expected_num == atoi_base_result)
+	{
+		logged_printf(false, "  Test OK:\n   base: base%ld = \"%s\"\n   src:  \"%s\"\n   expected result: %d\n   obtained result: %d\n", strlen(base), base, num_str, expected_num, atoi_base_result);
 		return 0;
+	}
 	logged_printf(true, "  Test KO:\n   base: base%ld = \"%s\"\n   src:  \"%s\"\n   expected result: %d\n   obtained result: %d\n", strlen(base), base, num_str, expected_num, atoi_base_result);
 
 	return 1;
@@ -327,9 +330,13 @@ static int	_test_one_invalid_base(char *base, char *description)
 {
 	int	res;
 
+	logged_printf(false, " base tested: \"%s\" [description: %s]\n ->", base, description);
 	res = ft_atoi_base("  ", base);
 	if (!res)
+	{
+		logged_printf(false, " ok\n");
 		return 0;
+	}
 	logged_printf(true, " ko:%s%s\n  base: %s\n  result expected: 0\n  result obtained: %d\n", description ? "\ndescription: " : "", description ? description : "", base, res);
 	return 1;
 }

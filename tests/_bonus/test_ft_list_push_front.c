@@ -1,7 +1,7 @@
 #include "test_bonus.h"
 
-static int _test_preexisting_list( int print);
-static int _test_empty_list( int print);
+static int _test_preexisting_list( bool print);
+static int _test_empty_list( bool print);
 
 int test_list_push_front()
 {
@@ -9,27 +9,10 @@ int test_list_push_front()
 
 	int error_cpt = 0;
 
-	logged_printf(true, "- Preexisting list: ");
-	if (_test_preexisting_list(0))
-	{
-		logged_printf(true, "KO\n");
-		++error_cpt;
-		_test_preexisting_list(1);
-	}
-	else
-		logged_printf(true, "OK\n");
-
-	logged_printf(true, "- Empty list: ");
-	if (_test_empty_list(0))
-	{
-		logged_printf(true, "KO\n");
-		++error_cpt;
-		_test_empty_list(1);
-	}
-	else
-		logged_printf(true, "OK\n");
-
-		logged_printf(true, "\n-----------\nRESULTS: ");
+	error_cpt += test_list_and_display_results("Preexisting list", _test_preexisting_list);
+	error_cpt += test_list_and_display_results("Empty list", _test_empty_list);
+	
+	logged_printf(true, "\n-----------\nRESULTS: ");
 	if (error_cpt)
 		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
 	else
@@ -39,7 +22,7 @@ int test_list_push_front()
 	return error_cpt != 0;
 }
 
-static int _test_preexisting_list( int print_details)
+static int _test_preexisting_list(bool print_details)
 {
 	t_list	*head;
 	t_list	old_first;
@@ -56,24 +39,24 @@ static int _test_preexisting_list( int print_details)
 	head = &old_first;
 
 	if (print_details)
-	{
-		logged_printf(true, "Head addr: %p\n", &head);
-		test_print_lst(head);
-	}
+		logged_printf(false, " /!\\ Same test\n");
+
+	logged_printf(print_details, "Head stoked at the address %p\nBefore:\n", &head);
+	test_print_lst(print_details, head);
+
 	ft_list_push_front(&head, (void*)new_data);
 	rtn = !head || head->data != new_data || head->next != &old_first || head->next->next != old_first.next;
-	if (print_details)
-	{
-		logged_printf(true, "\nShould now start with a new node node which data is %p\n", new_data);
-		test_print_lst(head);	
-	}
+	
+	logged_printf(print_details, "After:\nShould now start with a new node which data is %p:\n", new_data);
+	test_print_lst(print_details, head);
+	
 	if (head && head->data == new_data)
 		free(head);
 	return (rtn);
 }
 
 
-static int _test_empty_list( int print_details)
+static int _test_empty_list( bool print_details)
 {
 	t_list	**head;
 	t_list *first_null = NULL;
@@ -83,16 +66,16 @@ static int _test_empty_list( int print_details)
 	head = &first_null;
 
 	if (print_details)
-	{
-		logged_printf(true, "Head addr: %p\nNo list", head);
-	}
+		logged_printf(false, " /!\\ Same test\n");
+
+	logged_printf(print_details, "Head stoked at the address %p\nNo list", head);
+	
 	ft_list_push_front(head, (void*)new_data);
 	rtn = (!(*head) || (*head)->data != new_data || (*head)->next != NULL);
-	if (print_details)
-	{
-		logged_printf(true, "\nShould now start with a new node node which data is %p\n", new_data);
-		test_print_lst(*head);	
-	}
+	
+	logged_printf(print_details, "\nShould now start with a new node node which data is %p\n", new_data);
+	test_print_lst(print_details, *head);	
+
 	if (*head)
 		free(*head);
 	return rtn;

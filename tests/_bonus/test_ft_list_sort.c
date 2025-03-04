@@ -15,7 +15,7 @@ int	test_list_sort()
 	error_cpt += _test_sort_empty_list();
 	error_cpt += _test_random_non_empty_lists(number_of_tests, list_len_max);
 
-		logged_printf(true, "\n-----------\nRESULTS: ");
+	logged_printf(true, "\n-----------\nRESULTS: ");
 	if (error_cpt)
 		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
 	else
@@ -69,7 +69,7 @@ static	int _test_random_non_empty_lists(int number_of_tests, int list_len_max)
 
 
 static int	_generate_to_identical_lists_int(t_list **lst1, t_list **lst2, int list_size);
-static int _check_and_display_error(t_list *list_initial, t_list *list_sorted);
+static int _check_and_display_error(int list_size, t_list *list_initial, t_list *list_sorted);
 
 static int	_test_sorting_one_list_int(int list_size)
 {
@@ -80,7 +80,7 @@ static int	_test_sorting_one_list_int(int list_size)
 	if (_generate_to_identical_lists_int(&list, &list_sorted, list_size))
 		return 0;
 	ft_list_sort(&list_sorted, int_cmp);
-	error = _check_and_display_error(list, list_sorted);
+	error = _check_and_display_error(list_size, list, list_sorted);
 	list_free(list);
 	list_free(list_sorted);
 	return error;
@@ -104,7 +104,7 @@ static int	_generate_to_identical_lists_int(t_list **lst1, t_list **lst2, int li
 int	check_list_int_is_sorted(t_list *begin_list, char *error_msg);
 int	check_sorted_list_size(t_list *sorted_list, int expected_len, char *err_msg);
 
-static int _check_and_display_error(t_list *list_initial, t_list *list_sorted)
+static int _check_and_display_error(int list_size, t_list *list_initial, t_list *list_sorted)
 {
 	char	error_msg_sorted[128];
 	char	error_msg_len[128];
@@ -112,14 +112,13 @@ static int _check_and_display_error(t_list *list_initial, t_list *list_sorted)
 
 	error = check_list_int_is_sorted(list_sorted, error_msg_sorted);
 	error |= check_sorted_list_size(list_sorted, list_size_c(list_initial), error_msg_len);
-	if (error)
-	{
-		logged_printf(true, " Test KO:\n  src:  ");
-		test_print_lst_int_silent(list_initial);
-		logged_printf(true, "  res: ");
-		test_print_lst_int_silent(list_sorted);
-		logged_printf(true, "  => %s\n  => %s\n", error_msg_sorted, error_msg_len);
-	}
+
+	logged_printf(error, " Test (%s):\n  src: (size = %d) ", error ? "KO":"OK", list_size);
+	test_print_lst_int_silent(error, list_initial);
+	logged_printf(error, "  res: ");
+	test_print_lst_int_silent(error, list_sorted);
+	logged_printf(error, "  => %s\n  => %s\n ==> %s\n", error_msg_sorted, error_msg_len, error ? "KO":"OK");
+
 	return error;
 }
 
