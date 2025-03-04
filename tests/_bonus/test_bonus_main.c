@@ -14,7 +14,7 @@ int main()
 		test_atoi_base,
 		NULL};
 
-	open_log_file("test_mandatory.log");
+	open_log_file("test_bonus.log");
 
 	logged_printf(true, "===============================================\n");
 	logged_printf(true, "          LIBASM BONUS FUNCTIONS TEST          \n");
