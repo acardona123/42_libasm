@@ -10,6 +10,15 @@
 # include <string.h>
 # include <time.h>
 # include <unistd.h>
+# include <stdbool.h>
+#include <stdarg.h>
+
+//logs
+extern char	log_file_name[128];
+extern int	log_file_fd;
+void		open_log_file(char *new_log_file_name);
+void		close_log_file();
+void		logged_printf(bool print_stdout, const char *format, ...);
 
 int test_strlen();
 int test_strcmp();

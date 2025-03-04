@@ -4,10 +4,6 @@ typedef int (*test_function)( void );
 
 int main()
 {
-	logged_printf(true, "===============================================\n");
-	logged_printf(true, "        LIBASM MANDATOY FUNCTIONS TEST         \n");
-	logged_printf(true, "===============================================\n\n");
-
 	test_function functions_to_test[] = {
 		test_strlen,
 		test_strcmp,
@@ -18,6 +14,13 @@ int main()
 		NULL};
 	int	failed_functions_cpt;
 	int	fct_index;
+
+	open_log_file("test_mandatory.log");
+
+	logged_printf(true, "===============================================\n");
+	logged_printf(true, "        LIBASM MANDATOY FUNCTIONS TEST         \n");
+	logged_printf(true, "===============================================\n\n");
+
 
 	failed_functions_cpt = 0;
 	fct_index = 0;
