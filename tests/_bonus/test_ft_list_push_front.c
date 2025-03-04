@@ -12,12 +12,7 @@ int test_list_push_front()
 	error_cpt += test_list_and_display_results("Preexisting list", _test_preexisting_list);
 	error_cpt += test_list_and_display_results("Empty list", _test_empty_list);
 	
-	logged_printf(true, "\n-----------\nRESULTS: ");
-	if (error_cpt)
-		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
-	else
-		logged_printf(true, "Success\n");
-
+	test_display_results(error_cpt);
 	logged_printf(true, "--- End ---\n");
 	return error_cpt != 0;
 }

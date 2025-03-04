@@ -13,12 +13,7 @@ int test_strcmp()
 	error_cpt += cmp_strcmp_ftstrcmp("Hello", "He__o");
 	error_cpt += cmp_strcmp_ftstrcmp("test\t", "test\t1");
 
-		logged_printf(true, "\n-----------\nRESULTS: ");
-	if (error_cpt)
-		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
-	else
-		logged_printf(true, "Success\n");
-
+	test_display_results(error_cpt);
 	logged_printf(true, "--- End ---\n");
 	return error_cpt != 0;
 }

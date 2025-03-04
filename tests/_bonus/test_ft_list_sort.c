@@ -15,11 +15,7 @@ int	test_list_sort()
 	error_cpt += _test_sort_empty_list();
 	error_cpt += _test_random_non_empty_lists(number_of_tests, list_len_max);
 
-	logged_printf(true, "\n-----------\nRESULTS: ");
-	if (error_cpt)
-		logged_printf(true, "Failure : %d error%s\n", error_cpt, error_cpt > 1 ? "s" : "");
-	else
-		logged_printf(true, "Success\n");
+	test_display_results(error_cpt);
 	logged_printf(true, "--- End ---\n");
 	return error_cpt != 0;
 }

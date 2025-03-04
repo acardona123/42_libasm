@@ -20,6 +20,8 @@ void		open_log_file(char *new_log_file_name);
 void		close_log_file();
 void		logged_printf(bool print_stdout, const char *format, ...);
 
+void test_display_results(int number_of_errors);
+
 int test_strlen();
 int test_strcmp();
 int test_strcpy();

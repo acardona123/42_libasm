@@ -39,6 +39,7 @@ OBJ_BONUS				=	$(patsubst $(SRC_DIR)%.s, $(OBJ_DIR)%.o, $(ASM_FILES_BONUS))
 
 TEST_SRC_MANDATORY	=	\
 						test_mandatory_main \
+						test_display_results \
 						test_ft_read \
 						test_ft_write \
 						test_ft_strcpy \
@@ -49,6 +50,7 @@ TEST_SRC_MANDATORY	=	\
 
 TEST_SRC_BONUS		=	\
 						test_bonus_main \
+						test_display_results \
 						test_ft_list_push_front \
 						test_ft_list_remove_if \
 						test_ft_list_size \
