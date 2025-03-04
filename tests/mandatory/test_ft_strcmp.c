@@ -8,6 +8,8 @@ int test_strcmp()
 
 	logged_printf(true, "=== Tests of ft_strcmp ===\n\n");
 	error_cpt += cmp_strcmp_ftstrcmp("", "");
+	error_cpt += cmp_strcmp_ftstrcmp("a", "");
+	error_cpt += cmp_strcmp_ftstrcmp("", "a");
 	error_cpt += cmp_strcmp_ftstrcmp("000", "001");
 	error_cpt += cmp_strcmp_ftstrcmp("123", "122");
 	error_cpt += cmp_strcmp_ftstrcmp("Hello", "He__o");
