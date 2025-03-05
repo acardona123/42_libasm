@@ -1,4 +1,4 @@
-#include "test_bonus.h"
+#include "test_mandatory.h"
 
 void test_display_results(int number_of_errors)
 {
