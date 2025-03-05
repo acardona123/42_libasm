@@ -10,8 +10,8 @@ int main()
 		test_list_push_front,
 		test_list_size,
 		test_list_remove_if,
-		test_list_sort,
 		test_atoi_base,
+		test_list_sort,
 		NULL};
 
 	open_log_file("test_bonus.log");
