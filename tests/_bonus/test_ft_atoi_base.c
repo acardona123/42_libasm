@@ -9,6 +9,7 @@ static int	max_number_of_extra_non_digits= 30;
 
 static int _test_atoi_base_manual();
 static int _test_valid_bases_16_10_8_random_numbers();
+static int _test_valid_base_2();
 static int _test_atoi_invalid_bases();
 
 int	test_atoi_base()
@@ -20,6 +21,7 @@ int	test_atoi_base()
 	error_cpt = 0;
 	// error_cpt += _test_atoi_base_manual();
 	error_cpt += _test_valid_bases_16_10_8_random_numbers();
+	error_cpt += _test_valid_base_2();
 	error_cpt += _test_atoi_invalid_bases();
 
 	test_display_results(error_cpt);
@@ -87,13 +89,13 @@ static int _test_valid_bases_16_10_8_random_numbers()
 	int	error_cpt;
 	int	i;
 
-	logged_printf(true, " --- Tests on valid bases and numbers ---\n");
+	logged_printf(true, " --- Tests on valid bases and numbers (fully-auto) ---\n");
 	error_cpt = 0;
 	i = 0;
 	while (bases_tested[i])
 		error_cpt += _test_base_multiple_random_numbers(number_of_tests_each_base, bases_tested[i++]);
 
-	logged_printf(true, "Results on valid basis:\n");
+	logged_printf(true, "Results on valid basis (fully-auto):\n");
 	if (error_cpt)
 		logged_printf(true, " Failure : error(s) in %d base%s among %d base%s tested\n\n", error_cpt, error_cpt > 1 ? "s" : "", i, i >1 ? "s" : "");
 	else
@@ -272,6 +274,41 @@ static char	_get_random_non_digits(char *base)
 	while (strchr(base, c))
 		c = 1 + rand() % 127;
 	return c;
+}
+
+
+// ==== TESTS ON VALID BASE 16, 10 or 8 ====
+
+static int	_test_valid_base_2_one_number(char *src, int expected_res);
+
+static int _test_valid_base_2()
+{
+	int	error_cpt;
+
+	logged_printf(true, " --- Tests on valid bases 2 (semi-auto) ---\n");
+
+	error_cpt = 0;
+	error_cpt += _test_valid_base_2_one_number("1", 1);
+	error_cpt += _test_valid_base_2_one_number("11", 3);
+	error_cpt += _test_valid_base_2_one_number("11111111", 255);
+	error_cpt += _test_valid_base_2_one_number("-11111111", -255);
+
+	logged_printf(true, "Results on valid base 2 (semi-auto):\n");
+	if (error_cpt)
+		logged_printf(true, " Failure\n\n");
+	else
+		logged_printf(true, " Success\n\n");
+	return error_cpt != 0;
+}
+
+static int	_test_valid_base_2_one_number(char *src, int expected_res)
+{
+	char	base[] = "01";
+	int		obtained_res;
+
+	obtained_res = ft_atoi_base(src, base);
+	logged_printf(obtained_res != expected_res, " base 2:\n str: \"%s\"\n expected result (manually entered): %d\n obtained result: %d\n=> %s\n", src, expected_res, obtained_res, expected_res == obtained_res ? "OK" : "KO");
+	return expected_res != obtained_res;
 }
 
 
