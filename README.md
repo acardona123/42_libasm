@@ -53,7 +53,7 @@ Ce projet consiste à réécrire des fonctions standards de la libc en **langage
    ```c
    #include "libasm.h"  
    int main() {  
-       char str = "42";
+       char str[] = "42";
        printf("ft_strlen(\"%s\") = %zu\n", str, ft_strlen(str));  
        return 0;  
    }  
@@ -75,13 +75,13 @@ Ce projet consiste à réécrire des fonctions standards de la libc en **langage
    make test_v
    ```
    ```sh
-   make bonus_test
+   make bonus_test_v
    ```
 
 ---
 
 ## **🔍 Debugging manuel**  
-- Utiliser **`gdb`** pour analyser l'exécution :  
+Utiliser **`gdb`** pour analyser l'exécution :  
 
 ```bash
 make debug
@@ -97,7 +97,7 @@ To check the content of an addr pointed by a reg: `x/s (char*)$rsi`
 ---
 
 ## **📚 Ressources utiles** 
-- [class x86 Assembly guide University of Virginia](https://www.cs.virginia.edu/`evans/cs216/guides/x86.html)
+- [class x86 Assembly guide University of Virginia](https://www.cs.virginia.edu/evans/cs216/guides/x86.html)
 - [github klaudiagrz assembly presentation](https://github.com/0xAX/asm?tab=readme-ov-file)
 - [class about registers and instructions](https://cs.brown.edu/courses/cs033/docs/guides/x64_cheatsheet.pdf) 
 - [NASM Tutorial](https://nasm.us/doc/)  
